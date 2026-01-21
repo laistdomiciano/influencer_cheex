@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHEEX Case (Web Deck) | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* CHEEX-inspired palette (approx.) */
+      --bg:#fff6f1;
+      --card:#ffffff;
+      --ink:#141018;
+      --muted:rgba(20,16,24,.68);
+      --border:rgba(20,16,24,.10);
+      --p:#ff5a7a;         /* juicy pink */
+      --p2:#ff9a72;        /* peach */
+      --pd:#c93653;        /* deep berry */
+      --ok:#2db47a;
+      --bad:#ff3d5e;
+      --r-lg:22px;
+      --r-md:16px;
+      --shadow:0 14px 40px rgba(20,16,24,.12);
+      --shadow2:0 8px 22px rgba(20,16,24,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%),
+        radial-gradient(1000px 520px at 95% 10%, rgba(255,154,114,.16), transparent 55%),
+        var(--bg);
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:10;
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:16px 20px;
+    }
+    .nav{
+      max-width:1160px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+    .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
+    .dots{display:flex;gap:10px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
+    .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
+    .timer{font-size:13px;color:var(--muted);white-space:nowrap}
+
+    section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:94px 20px 56px;opacity:0;transform:translateY(22px);transition:.7s}
+    section.visible{opacity:1;transform:translateY(0)}
+    .wrap{max-width:1160px;width:100%}
+
+    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px}
+    h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
+    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .small{font-size:14px;line-height:1.55;color:var(--muted)}
+
+    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+    .col{flex:1 1 320px}
+    .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(255,90,122,.28)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
+    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
+    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+    .metric{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+    .metric:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--p),var(--p2))}
+    .mv{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+    .ml{font-size:13px;color:var(--muted)}
+
+    .ph{border:1px dashed rgba(20,16,24,.26);border-radius:var(--r-md);background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(20,16,24,.55);font-weight:700;padding:12px}
+    .ph.photo{height:150px}
+    .ph.snap{height:210px}
+    .ph.wide{height:130px;border-radius:var(--r-lg)}
+
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);vertical-align:top}
+    th{font-size:13px;color:rgba(20,16,24,.80);text-transform:uppercase;letter-spacing:.06em}
+
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(20,16,24,.12);background:rgba(255,255,255,.92);color:var(--ink);font-weight:800;text-decoration:none;box-shadow:0 12px 24px rgba(20,16,24,.08);transition:.18s}
+    .btn:hover{transform:translateY(-2px);border-color:rgba(255,90,122,.35)}
+    .btn.primary{background:linear-gradient(135deg,var(--p),var(--p2));border-color:transparent;color:#fff}
+
+    footer{padding:26px 20px 44px;text-align:center;color:var(--muted);font-size:13px}
+    @media (max-width:520px){h2{font-size:34px}section{padding:90px 16px 46px}}
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav">
+      <div class="brand"><div class="logo" aria-hidden="true"></div>CHEEX Case · Web Deck</div>
+      <div class="dots" id="dots"></div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </nav>
+
+  <section class="visible" data-title="Intro">
+    <div class="wrap">
+      <h1>A performance-first creator engine for <span class="grad">safe, inclusive pleasure</span></h1>
+      <p>This is a lightweight HTML deck. I’ll replace placeholders with real creator screenshots and assets once the plan is final.</p>
+      <div class="cta">
+        <a class="btn primary" href="#strategy">Jump to Strategy</a>
+        <a class="btn" href="#creators">Creator Buckets</a>
+        <a class="btn" href="#budget">Budget & KPIs</a>
+      </div>
+      <div class="grid" style="margin-top:18px">
+        <div class="metric"><div class="ml">Goal</div><div class="mv">Revenue + Conversions</div></div>
+        <div class="metric"><div class="ml">Channels</div><div class="mv">Instagram + TikTok</div></div>
+        <div class="metric"><div class="ml">Operating mode</div><div class="mv">Test → Learn → Scale</div></div>
+        <div class="metric"><div class="ml">Guardrails</div><div class="mv">Consent · Safety · Fit</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="strategy" data-title="Context">
+    <div class="wrap">
+      <h2>What I’m optimizing for</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">CHEEX brand</div><h3>Modern, not cliché</h3><p class="small">Creators must match CHEEX: confident, real, diverse, consent-first. No “old porn internet” energy.</p></div></div>
+        <div class="col"><div class="card"><div class="pill problem">Reality</div><h3>Trust is the bottleneck</h3><p class="small">In this category, influencer marketing wins when people feel safe and understood. Otherwise it backfires.</p></div></div>
+        <div class="col"><div class="card"><div class="pill kpi">Success</div><h3>Performance + responsibility</h3><p class="small">ROAS matters. So do expectations, refunds, and sentiment. I measure both and act fast.</p></div></div>
+      </div>
+      <div class="ph wide" style="margin-top:16px">Placeholder: funnel snapshot (traffic → trial → paid → retention) / baseline KPIs</div>
+    </div>
+  </section>
+
+  <section data-title="Plan">
+    <div class="wrap">
+      <h2>Strategy in one page</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">Portfolio</div><h3>70 / 20 / 10 split</h3><p class="small">70% proven creators, 20% new tests, 10% bold experiments. Learning compounds month over month.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Positioning</div><h3>Pleasure + Education</h3><p class="small">Creators hook with curiosity. The product converts with safety and retains with education.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Loop</div><h3>Weekly cadence</h3><p class="small">Weekly test slots, consistent reporting, clear stop rules, and quick creative iteration.</p></div></div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill kpi">Key levers</div>
+        <table>
+          <thead><tr><th>Lever</th><th>What I do</th><th>What I measure</th></tr></thead>
+          <tbody>
+            <tr><td>Creator fit</td><td>Audience match, tone, safety alignment</td><td>CTR, CVR, sentiment, refund signals</td></tr>
+            <tr><td>Offer</td><td>Trial framing, annual vs monthly, bundles</td><td>AOV, trial-to-paid, churn, payback</td></tr>
+            <tr><td>Creative</td><td>Hook → proof → how it works → CTA</td><td>View-through, saves, shares, comments</td></tr>
+            <tr><td>Scaling</td><td>Shift budget to winners, cap fatigue</td><td>ROAS trend, frequency, diminishing returns</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="creators" data-title="Creators">
+    <div class="wrap">
+      <h2>Creator buckets (placeholders)</h2>
+      <p class="small">Replace each block with a real creator: photo, social snapshot, key stats, and one collaboration idea.</p>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">Bucket 1</div><h3>Main performance drivers</h3><div class="ph photo" style="margin-top:10px">Creator photo</div><div class="ph snap" style="margin-top:10px">IG or TikTok snapshot</div><p class="small" style="margin-top:10px">Why: proven conversion, clean fit, stable engagement. Format: Reel + Story + link sticker.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Bucket 2</div><h3>Education-first creators</h3><div class="ph photo" style="margin-top:10px">Creator photo</div><div class="ph snap" style="margin-top:10px">IG or TikTok snapshot</div><p class="small" style="margin-top:10px">Why: trust builder, high saves. Format: Q and A, myth busting, short tutorial teaser.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Bucket 3</div><h3>Bold tests</h3><div class="ph photo" style="margin-top:10px">Creator photo</div><div class="ph snap" style="margin-top:10px">IG or TikTok snapshot</div><p class="small" style="margin-top:10px">Why: new angle and audience overlap. Format: duet, POV voiceover, spicy audio hook.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="budget" data-title="Budget">
+    <div class="wrap">
+      <h2>Budget, KPIs, and “traction loss”</h2>
+      <div class="grid">
+        <div class="metric"><div class="ml">Monthly budget (example)</div><div class="mv">€40,000</div></div>
+        <div class="metric"><div class="ml">Payback target</div><div class="mv">&lt; 3 months</div></div>
+        <div class="metric"><div class="ml">Stop rules</div><div class="mv">Week 1</div></div>
+        <div class="metric"><div class="ml">Scaling rule</div><div class="mv">ROAS trend stable</div></div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill kpi">KPI signals that a creator loses traction</div>
+        <table>
+          <thead><tr><th>Signal</th><th>What it can mean</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>Engagement rate trend ↓</td><td>Audience fatigue, weaker fit</td><td>Refresh concept, reduce frequency, rotate creator</td></tr>
+            <tr><td>Story link CTR ↓</td><td>Offer fatigue, CTA too repetitive</td><td>Change hook, improve framing, swap assets</td></tr>
+            <tr><td>Conversions per 1k views ↓</td><td>Saturation, wrong audience</td><td>Re-check audience insights, test new angle</td></tr>
+            <tr><td>Refund or support signals ↑</td><td>Expectation mismatch</td><td>Fix messaging, align with product team</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="ph wide" style="margin-top:16px">Placeholder: spend → conversions → revenue forecast (or cohort retention)</div>
+    </div>
+  </section>
+
+  <section data-title="Close">
+    <div class="wrap">
+      <h2>Close</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">Performance</div><h3>I scale what works</h3><p class="small">Tracking, reporting cadence, and clear stop rules. Less chaos, more learning.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Taste + safety</div><h3>I protect the brand</h3><p class="small">Confident, modern, consent-safe storytelling. Strict creator fit.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Ownership</div><h3>I run end to end</h3><p class="small">Research, negotiation, brief, launch, analysis. Accountable for results.</p></div></div>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>HTML “web deck” template. Replace placeholders with real creator assets and campaign data.</footer>
+
+  <script>
+    const secs = Array.from(document.querySelectorAll('section'));
+    const dots = document.getElementById('dots');
+
+    secs.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = s.dataset.title || ('Section ' + (i+1));
+      d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+      dots.appendChild(d);
+    });
+
+    const dotEls = Array.from(document.querySelectorAll('.dot'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        const idx = secs.indexOf(e.target);
+        dotEls.forEach(x => x.classList.remove('active'));
+        if (dotEls[idx]) dotEls[idx].classList.add('active');
+      });
+    }, { threshold: 0.25 });
+
+    secs.forEach(s => obs.observe(s));
+
+    const start = Date.now();
+    const t = document.getElementById('timer');
+    setInterval(() => {
+      const s = Math.floor((Date.now()-start)/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      t.textContent = mm + ':' + ss;
+    }, 250);
+  </script>
+</body>
+</html>
