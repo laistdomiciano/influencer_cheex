@@ -1,0 +1,809 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHEEX Case | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* CHEEX-inspired palette (approx.) */
+      --bg:#fff6f1;
+      --card:#ffffff;
+      --ink:#141018;
+      --muted:rgba(20,16,24,.68);
+      --muted2:rgba(20,16,24,.48);
+      --line:rgba(20,16,24,.10);
+      --shadow:0 14px 40px rgba(20,16,24,.08);
+      --shadow2:0 10px 26px rgba(20,16,24,.10);
+
+      --accent:#ff3c7e;
+      --accent2:#ff7aa6;
+      --good:#19c37d;
+      --warn:#ffb020;
+      --bad:#ff4d4f;
+
+      --r:22px;
+      --r2:14px;
+      --pad:22px;
+      --max:1100px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 800px at 10% 0%, rgba(255,60,126,.10), transparent 60%),
+        radial-gradient(900px 700px at 100% 10%, rgba(255,122,166,.14), transparent 55%),
+        var(--bg);
+    }
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:26px 18px 70px}
+    header.hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+      align-items:stretch;
+      margin-bottom:18px;
+    }
+    @media (max-width:900px){
+      header.hero{grid-template-columns:1fr}
+    }
+    .heroCard{
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.86));
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      padding:26px;
+      position:relative;
+      overflow:hidden;
+    }
+    .heroCard:before{
+      content:"";
+      position:absolute;
+      inset:-60px -40px auto auto;
+      width:240px;
+      height:240px;
+      border-radius:999px;
+      background:radial-gradient(circle at 30% 30%, rgba(255,60,126,.28), rgba(255,60,126,0) 60%);
+      filter:blur(2px);
+      transform:rotate(10deg);
+    }
+    h1{
+      margin:0 0 8px 0;
+      font-size:34px;
+      letter-spacing:-.02em;
+      line-height:1.05;
+    }
+    .sub{
+      margin:0 0 14px 0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.5;
+      max-width:56ch;
+    }
+    .metaRow{
+      display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:9px 12px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:999px;
+      box-shadow:0 8px 20px rgba(20,16,24,.06);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .dot{width:8px; height:8px; border-radius:99px; background:var(--accent)}
+    .dot.good{background:var(--good)}
+    .dot.neutral{background:rgba(20,16,24,.25)}
+    .dot.warn{background:var(--warn)}
+    .sideCard{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      padding:22px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .sideCard h3{margin:0; font-size:16px}
+    .sideCard p{margin:0; font-size:13px; color:var(--muted); line-height:1.5}
+    .toc{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+    .toc a{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.92);
+      font-size:12px;
+      color:var(--muted);
+      transition:.15s ease;
+    }
+    .toc a:hover{transform:translateY(-1px); box-shadow:var(--shadow2)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:14px;
+      margin-top:14px;
+    }
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      box-shadow:var(--shadow);
+      padding:var(--pad);
+      position:relative;
+      overflow:hidden;
+    }
+    .card.tight{padding:18px}
+    .span-12{grid-column:span 12}
+    .span-8{grid-column:span 8}
+    .span-7{grid-column:span 7}
+    .span-6{grid-column:span 6}
+    .span-5{grid-column:span 5}
+    .span-4{grid-column:span 4}
+    .span-3{grid-column:span 3}
+    @media (max-width:900px){
+      .span-8,.span-7,.span-6,.span-5,.span-4,.span-3{grid-column:span 12}
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:700;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.8);
+      color:rgba(20,16,24,.75);
+      margin-bottom:10px;
+    }
+    .pill.accent{background:rgba(255,60,126,.10); border-color:rgba(255,60,126,.18); color:rgba(255,60,126,.92)}
+    .pill.good{background:rgba(25,195,125,.10); border-color:rgba(25,195,125,.18); color:rgba(25,195,125,.92)}
+    .pill.warn{background:rgba(255,176,32,.12); border-color:rgba(255,176,32,.22); color:rgba(170,106,0,.92)}
+    .pill.neutral{background:rgba(20,16,24,.06); border-color:rgba(20,16,24,.10); color:rgba(20,16,24,.70)}
+    h2{
+      margin:0 0 12px 0;
+      font-size:20px;
+      letter-spacing:-.01em;
+      line-height:1.2;
+    }
+    h3{
+      margin:0 0 10px 0;
+      font-size:16px;
+      letter-spacing:-.01em;
+      line-height:1.25;
+    }
+    p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+    .hr{height:1px; background:var(--line); margin:14px 0}
+    .kpiRow{display:flex; gap:10px; flex-wrap:wrap}
+    .kpi{
+      flex:1 1 140px;
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.86));
+      border:1px solid var(--line);
+      border-radius:var(--r2);
+      padding:12px 14px;
+    }
+    .kpi .label{font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--muted2); font-weight:800}
+    .kpi .value{font-size:18px; font-weight:800; margin-top:6px}
+    .kpi .hint{margin-top:4px; font-size:12px; color:var(--muted)}
+    .twoCol{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:900px){.twoCol{grid-template-columns:1fr}}
+    .list{
+      margin:0;
+      padding-left:16px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+    .list li{margin:6px 0}
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.85);
+      color:rgba(20,16,24,.75);
+    }
+
+    /* Creator cards */
+    .creator{
+      display:grid;
+      grid-template-columns: 72px 1fr;
+      gap:12px;
+      align-items:center;
+    }
+    .avatar{
+      width:72px; height:72px; border-radius:18px;
+      border:1px solid var(--line);
+      object-fit:cover;
+      background:rgba(20,16,24,.04);
+    }
+    .creator .name{font-weight:800; font-size:14px; margin:0}
+    .creator .desc{margin:4px 0 0 0; font-size:12px; color:var(--muted)}
+
+    /* Outreach box: keep email EXACT, just display nicely */
+    .outreachBox{
+      border:1px solid var(--line);
+      border-radius:var(--r2);
+      background:rgba(255,255,255,.9);
+      padding:14px;
+      max-height:260px;       /* IMPORTANT: prevents overflow */
+      overflow:auto;          /* scroll if needed */
+      box-shadow:0 10px 24px rgba(20,16,24,.06);
+    }
+    .outreachBox pre{
+      margin:0;
+      white-space:pre-wrap;   /* wraps long lines */
+      word-break:break-word;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-size:12px;
+      line-height:1.55;
+      color:rgba(20,16,24,.86);
+    }
+
+    /* Steps (the snippet you sent) */
+    .steps{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.55;
+    }
+    .steps li{margin:8px 0}
+    .note{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(255,60,126,.06);
+      color:rgba(20,16,24,.78);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    /* Math table */
+    .math{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background:#fff;
+    }
+    .math th,.math td{
+      padding:10px 12px;
+      font-size:12px;
+      text-align:left;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+    }
+    .math th{
+      background:rgba(20,16,24,.04);
+      color:rgba(20,16,24,.78);
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.03em;
+      font-size:11px;
+    }
+    .math tr:last-child td{border-bottom:none}
+
+    /* Footer */
+    footer{
+      margin-top:18px;
+      color:var(--muted2);
+      font-size:12px;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <header class="hero">
+      <div class="heroCard">
+        <div class="pill accent">Case Presentation</div>
+        <h1>Influencer Marketing DACH — CHEEX Trial Kampagne</h1>
+        <p class="sub">
+          Ziel: €40k Budget effizient in Creator-Kooperationen allokieren, Meta-konform ausspielen, 7-Tage Trial als Primary KPI messen
+          — mit klarer Audience-Definition, Research-Workflow, Creatives pro Creator, Outreach-Math & Performance-Loop.
+        </p>
+        <div class="metaRow">
+          <div class="chip"><span class="dot"></span> Zeitraum: 1 Monat</div>
+          <div class="chip"><span class="dot good"></span> Primary KPI: Trials</div>
+          <div class="chip"><span class="dot neutral"></span> DACH Fokus</div>
+          <div class="chip"><span class="dot warn"></span> Plattform: Instagram (Meta)</div>
+        </div>
+      </div>
+
+      <aside class="sideCard">
+        <h3>Navigation</h3>
+        <p>Struktur ist 1:1 an den Case-Punkten ausgerichtet, ohne die Präsentation unnötig zu verlängern.</p>
+        <div class="toc">
+          <a href="#audience">Audience</a>
+          <a href="#research">Research</a>
+          <a href="#creators">Creator Pick</a>
+          <a href="#concepts">Creatives</a>
+          <a href="#outreach">Outreach</a>
+          <a href="#briefing">Briefing</a>
+          <a href="#compliance">Compliance</a>
+          <a href="#measurement">Measurement</a>
+          <a href="#wrap">Wrap-Up</a>
+        </div>
+      </aside>
+    </header>
+
+    <!-- AUDIENCE (MISSING IN CASE) -->
+    <section id="audience" class="grid">
+      <div class="card span-12">
+        <div class="pill accent">1) Audience Definition</div>
+        <h2>Zielgruppe (DACH) — Segmentiert & Messaging-fähig</h2>
+        <div class="twoCol">
+          <div>
+            <h3>Core Audience</h3>
+            <ul class="list">
+              <li><strong>Alter:</strong> 22–40 (Peak 25–34)</li>
+              <li><strong>Sprache:</strong> DE als Default, inkl. EN-Toleranz in urbanen Clustern</li>
+              <li><strong>Interessen:</strong> Beziehung & Intimität, Selbstbestimmung, Pop-Psychologie, Feminismus/Empowerment, Dating, Sex-Ed</li>
+              <li><strong>Barrieren:</strong> Scham, “too explicit?”, Datenschutz-Sorgen, Angst vor Judgment</li>
+            </ul>
+          </div>
+          <div>
+            <h3>3 Segmente (für Creator Fit)</h3>
+            <ul class="list">
+              <li><strong>Curious Beginners:</strong> wollen niedrigschwellige, sachliche Aufklärung → “Schamfrei, sicher, fundiert”</li>
+              <li><strong>Relationship Growth:</strong> Paare/Long-term → “besser kommunizieren, neue Impulse, gemeinsame Routine”</li>
+              <li><strong>Sex-positive Empowerment:</strong> stark Werte-basiert → “Consent, Selbstbestimmung, Female Gaze”</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="kpiRow">
+          <div class="kpi">
+            <div class="label">Key Hook</div>
+            <div class="value">“Ohne Scham”</div>
+            <div class="hint">Value first, dann Trial CTA</div>
+          </div>
+          <div class="kpi">
+            <div class="label">Trust Builder</div>
+            <div class="value">“Education”</div>
+            <div class="hint">Ton: respektvoll, normalisierend</div>
+          </div>
+          <div class="kpi">
+            <div class="label">CTA</div>
+            <div class="value">7-Tage Trial</div>
+            <div class="hint">Low friction & trackable</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RESEARCH WORKFLOW (MISSING IN CASE) -->
+    <section id="research" class="grid">
+      <div class="card span-7">
+        <div class="pill accent">2) Research Approach</div>
+        <h2>So nutze ich das Influencer Research Tool</h2>
+        <ol class="steps">
+          <li><strong>Seed Search:</strong> Kategorien (Sex-Ed, Dating, Relationship, Feminism), Keywords, Hashtags</li>
+          <li><strong>Audience Fit:</strong> DACH-Share, Sprache, Demografie, Interests, “Audience Overlap” mit CHEEX Persona</li>
+          <li><strong>Brand Safety:</strong> Content Tonalität, Kommentar-Kultur, “Red Flags”, Plattform-Historie</li>
+          <li><strong>Performance Signals:</strong> ER, Story-Views, Reels Completion, Link-Click Patterns</li>
+          <li><strong>Shortlist:</strong> 15–25 Creator → final 3, plus 2–3 Backups</li>
+        </ol>
+        <div class="note">
+          <strong>Fallback falls Tool dünn ist:</strong> IG “Suggested”, Creator Collabs, Podcast/Newsletter Creator, TikTok-Discovery (nur als Input), manuelles Comment-Sentiment-Sampling.
+        </div>
+      </div>
+
+      <div class="card span-5">
+        <div class="pill neutral">2 Beispiele</div>
+        <h2>Zwei konkrete Research-Workflows</h2>
+        <ul class="list">
+          <li>
+            <strong>Approach A — Keyword → Segment:</strong><br/>
+            “Beziehung”, “Kommunikation”, “Dating” → filter DE-Audience → Shortlist → Story-Format-Fit prüfen
+          </li>
+          <li>
+            <strong>Approach B — Lookalike/Overlap:</strong><br/>
+            Seed Creator (ähnliche Werte) → Audience Overlap → “Adjacent Communities” → Backups definieren
+          </li>
+        </ul>
+        <div class="hr"></div>
+        <p><span class="badge">Output</span> Eine Shortlist, die “Brand Fit” priorisiert, nicht nur Reichweite.</p>
+      </div>
+    </section>
+
+    <!-- CREATOR SELECTION (you said you already have) -->
+    <section id="creators" class="grid">
+      <div class="card span-12">
+        <div class="pill accent">3) Creator Auswahl</div>
+        <h2>Top 3 Creator (Beispiele) + Fit-Begründung</h2>
+        <div class="grid" style="margin-top:8px">
+          <div class="card tight span-4">
+            <div class="creator">
+              <img class="avatar" src="Louisa_photo.png" alt="Louisa" />
+              <div>
+                <p class="name">Louisa</p>
+                <p class="desc">Sex-positive Education • Vertrauen • DACH-Audience</p>
+              </div>
+            </div>
+            <div class="hr"></div>
+            <ul class="list">
+              <li>Starker “Value-first” Ton</li>
+              <li>Good for: Curious Beginners</li>
+              <li>Format: Reels + Story Sequence</li>
+            </ul>
+          </div>
+
+          <div class="card tight span-4">
+            <div class="creator">
+              <img class="avatar" src="Creator2_photo.png" alt="Creator 2" />
+              <div>
+                <p class="name">Creator 2</p>
+                <p class="desc">Relationship & Kommunikation • Paare • Routine</p>
+              </div>
+            </div>
+            <div class="hr"></div>
+            <ul class="list">
+              <li>Stark in “how-to” Narratives</li>
+              <li>Good for: Relationship Growth</li>
+              <li>Format: Reel + Q&A Story</li>
+            </ul>
+          </div>
+
+          <div class="card tight span-4">
+            <div class="creator">
+              <img class="avatar" src="Creator3_photo.png" alt="Creator 3" />
+              <div>
+                <p class="name">Creator 3</p>
+                <p class="desc">Empowerment • Values • Community-Trust</p>
+              </div>
+            </div>
+            <div class="hr"></div>
+            <ul class="list">
+              <li>Values-driven, high trust</li>
+              <li>Good for: Empowerment</li>
+              <li>Format: Reel + Kommentar-Pin</li>
+            </ul>
+          </div>
+        </div>
+
+        <p style="margin-top:12px;color:var(--muted)">
+          <strong>Hinweis:</strong> Du kannst hier deine echten Creator-Namen/Handles/Assets einsetzen. Struktur bleibt gleich.
+        </p>
+      </div>
+    </section>
+
+    <!-- CREATIVE STRATEGY: 3 INDIVIDUAL CONCEPTS + OOTB (MISSING IN CASE) -->
+    <section id="concepts" class="grid">
+      <div class="card span-12">
+        <div class="pill accent">4) Creative Strategy</div>
+        <h2>3 individuelle Video-Konzepte (pro Creator) + “Outside-the-Box” Moment</h2>
+
+        <div class="grid" style="margin-top:6px">
+          <div class="card tight span-4">
+            <div class="pill neutral">Louisa Concept</div>
+            <h3>“Myth Busting” → Scham runter, Neugier hoch</h3>
+            <ul class="list">
+              <li><strong>Hook:</strong> “3 Dinge, die wir nie gelernt haben…”</li>
+              <li><strong>Flow:</strong> Myth → Reframe → 1 Micro-Tool → CHEEX als vertiefender Space</li>
+              <li><strong>OOTB:</strong> “Consent-Check-In” Mini-Ritual als On-Screen Prompt</li>
+              <li><strong>CTA:</strong> 7-Tage Trial + Code/Link</li>
+            </ul>
+          </div>
+
+          <div class="card tight span-4">
+            <div class="pill neutral">Creator 2 Concept</div>
+            <h3>“Couple Routine” → 7-Tage Mini-Challenge</h3>
+            <ul class="list">
+              <li><strong>Hook:</strong> “Wenn ihr das 3 Minuten/Tag macht…”</li>
+              <li><strong>Flow:</strong> Problem (Sprachlosigkeit) → 1 Übung → Trial als Challenge-Begleitung</li>
+              <li><strong>OOTB:</strong> Daily Story Poll: “Heute gemacht?” → Social Proof</li>
+              <li><strong>CTA:</strong> “Startet heute” + Trackable Link</li>
+            </ul>
+          </div>
+
+          <div class="card tight span-4">
+            <div class="pill neutral">Creator 3 Concept</div>
+            <h3>“Empowerment POV” → Werte & Sicherheit</h3>
+            <ul class="list">
+              <li><strong>Hook:</strong> “Sex-Ed ohne Male Gaze.”</li>
+              <li><strong>Flow:</strong> Werte → Grenzen/Consent → “Education ist Self-Care” → CHEEX Proof</li>
+              <li><strong>OOTB:</strong> “Kommentar-Safe Space” mit pinned ground rules</li>
+              <li><strong>CTA:</strong> Trial + “privat, safe, ohne Scham”</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>Authentizität:</strong> Creator behalten Tonalität & Storytelling-Style. Briefing liefert Guardrails (Wording/Visual), keine “Werbeskript-Steuerung”.
+        </div>
+      </div>
+    </section>
+
+    <!-- OUTREACH: EMAIL (UNCHANGED) + MATH (MISSING IN CASE) -->
+    <section id="outreach" class="grid">
+      <div class="card span-7">
+        <div class="pill accent">5) Outreach</div>
+        <h2>Outreach Message (unverändert) — nur besser dargestellt</h2>
+        <p style="margin-bottom:10px">
+          Der Text bleibt <strong>genau</strong> wie von dir vorgegeben. Anzeige ist scrolly/wrap-safe, damit die Box nicht sprengt.
+        </p>
+        <div class="outreachBox" aria-label="Outreach email">
+<pre>Hi [Name],
+
+ich arbeite bei CHEEX. Wir stehen für sex-positive Aufklärung ohne Scham.
+Dein Content zu [Thema] passt sehr gut zu unseren Werten.
+Hättest du Lust auf eine Zusammenarbeit für eine 7-Tage-Trial Kampagne?
+
+Liebe Grüße
+Laís</pre>
+        </div>
+      </div>
+
+      <div class="card span-5">
+        <div class="pill warn">5) Outreach Scheduling</div>
+        <h2>Wie viele Creator muss ich kontaktieren?</h2>
+        <p style="margin-bottom:10px">
+          Case-Vorgaben: <strong>Reply Rate 40%</strong>, <strong>Acceptance 1/3</strong> der Replies.
+        </p>
+
+        <table class="math">
+          <thead>
+            <tr>
+              <th>Annahme</th>
+              <th>Wert</th>
+              <th>Notiz</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Budget</td>
+              <td>€40.000</td>
+              <td>All-in Creator Fees (exkl. internes Ops)</td>
+            </tr>
+            <tr>
+              <td>Ø Deal Size (Mix)</td>
+              <td>€6.500</td>
+              <td>Micro/Mid Mix für DACH (anpassbar)</td>
+            </tr>
+            <tr>
+              <td>Benötigte Bookings</td>
+              <td>~6</td>
+              <td>40k / 6.5k ≈ 6,15</td>
+            </tr>
+            <tr>
+              <td>Conversion Contacts→Booking</td>
+              <td>0,40 × 1/3 = 0,133</td>
+              <td>Reply * Acceptance</td>
+            </tr>
+            <tr>
+              <td>Benötigte Kontakte</td>
+              <td>~46</td>
+              <td>6,15 / 0,133 ≈ 46</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="note">
+          <strong>Praktisch:</strong> Ich starte mit 45–55 Kontakten (inkl. Backups), um Budget & Timing sicher zu schließen.
+        </div>
+      </div>
+    </section>
+
+    <!-- BRIEFING (you already had; kept compact) -->
+    <section id="briefing" class="grid">
+      <div class="card span-12">
+        <div class="pill accent">6) Influencer Briefing</div>
+        <h2>Briefing: Guardrails, nicht Mikromanagement</h2>
+        <div class="twoCol">
+          <div>
+            <h3>Must-Haves</h3>
+            <ul class="list">
+              <li>Value-first: Education/Insight im Vordergrund</li>
+              <li>7-Tage Trial CTA (Link + Code) klar sichtbar</li>
+              <li>1 Reel + Story Sequenz (Poll/Q&A optional)</li>
+              <li>1 Review Runde (Script/Storyboard) + Final Check</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Don’ts (Safety)</h3>
+            <ul class="list">
+              <li>Keine expliziten Visuals / “porn-adjacent” framing</li>
+              <li>Keine medizinischen Claims</li>
+              <li>Kein “shock value” — Fokus: normalisierend & respektvoll</li>
+              <li>Keine beleidigenden/abwertenden Kommentare “anheizen”</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPLIANCE: STEP-BY-STEP (MISSING IN CASE) -->
+    <section id="compliance" class="grid">
+      <div class="card span-12">
+        <div class="pill warn">7) Content Moderation & Compliance</div>
+        <h2>Meta-konform bleiben — konkrete Schritte</h2>
+        <div class="grid" style="margin-top:6px">
+          <div class="card tight span-4">
+            <div class="pill neutral">Pre-Check</div>
+            <ol class="steps">
+              <li>Wording-Checkliste (sex-ed, non-explicit)</li>
+              <li>On-Screen Text/Thumbnail clean</li>
+              <li>“Privacy & Safety” Proofpoints</li>
+            </ol>
+          </div>
+          <div class="card tight span-4">
+            <div class="pill neutral">Review & Publish</div>
+            <ol class="steps">
+              <li>Script/Storyboard Review (1 Runde)</li>
+              <li>Final Cut Check (Text/Visual/CTA)</li>
+              <li>Publish Window + Backup Caption</li>
+            </ol>
+          </div>
+          <div class="card tight span-4">
+            <div class="pill neutral">Moderation</div>
+            <ol class="steps">
+              <li>Pinned Comment mit “Safe Space” Regeln</li>
+              <li>Keyword/Spam Filter (Creator Settings)</li>
+              <li>Escalation: Hide/Restrict/Report</li>
+            </ol>
+          </div>
+        </div>
+        <div class="note">
+          <strong>Fallback bei Issues:</strong> Re-Cut (On-Screen Text), Caption austauschen, repost innerhalb vereinbartem Zeitfenster.
+        </div>
+      </div>
+    </section>
+
+    <!-- MEASUREMENT + OPTIMISATION LOOP (MISSING IN CASE) -->
+    <section id="measurement" class="grid">
+      <div class="card span-12">
+        <div class="pill good">8) Performance Evaluation Plan</div>
+        <h2>KPIs & Optimisation Loop (ohne Overkill)</h2>
+
+        <div class="grid" style="margin-top:6px">
+          <div class="card tight span-4">
+            <div class="pill neutral">Funnel KPIs</div>
+            <ul class="list">
+              <li><strong>Awareness:</strong> Reach, 3s View, Completion</li>
+              <li><strong>Intent:</strong> Link CTR, Landing CTR</li>
+              <li><strong>Primary:</strong> Trials</li>
+              <li><strong>Quality:</strong> Trial→Paid, Refund/Cancel signal</li>
+            </ul>
+          </div>
+
+          <div class="card tight span-4">
+            <div class="pill neutral">Decision Rules</div>
+            <ul class="list">
+              <li><strong>Scale:</strong> CTR & Trials über Median → mehr Story Slots / Zusatz Reel</li>
+              <li><strong>Iterate:</strong> CTR ok, Trials low → CTA/LP/Offer anpassen</li>
+              <li><strong>Stop:</strong> Brand fit issues / underperform + no fix → Budget re-route</li>
+            </ul>
+          </div>
+
+          <div class="card tight span-4">
+            <div class="pill neutral">Timing</div>
+            <ul class="list">
+              <li><strong>Woche 1:</strong> Launch + baseline messen</li>
+              <li><strong>Woche 2:</strong> Hook/CTA Iteration</li>
+              <li><strong>Woche 3–4:</strong> Scale Winners, cut Losers</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <!-- THIS IS THE PART YOU SENT — finished properly -->
+        <div class="grid" style="margin-top:0">
+          <div class="col card span-6">
+            <div class="pill neutral">Tracking Setup</div>
+            <h3>Messbarkeit ohne Overkill</h3>
+            <ol class="steps">
+              <li>UTM-Link pro Creator / Placement</li>
+              <li>Creator Code (für Story + Kommentar)</li>
+              <li>Weekly Snapshot: CTR, Trials, Trial→Paid</li>
+            </ol>
+            <div class="note">
+              <strong>Warum so?</strong> Genug Signal für Entscheidungen, ohne Setup-Debt. Fokus bleibt auf Creative-Iteration.
+            </div>
+          </div>
+
+          <div class="col card span-6">
+            <div class="pill accent">Reporting</div>
+            <h3>Was ich im Interview zeige</h3>
+            <ul class="list">
+              <li>1-Pager “Campaign Health”: Spend, Trials, CPA-Trial, Trial→Paid</li>
+              <li>Top Creative Insights (Hook/Angle/CTA)</li>
+              <li>Next actions: scale/iterate/stop + Budget shift</li>
+            </ul>
+            <div class="note">
+              <strong>Bonus:</strong> Qualitatives Feedback aus Kommentaren & DMs → “why it worked” dokumentieren.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WRAP -->
+    <section id="wrap" class="grid">
+      <div class="card span-12">
+        <div class="pill accent">Wrap-Up</div>
+        <h2>Warum dieser Plan funktioniert</h2>
+        <div class="twoCol">
+          <div>
+            <ul class="list">
+              <li>Segmentiertes Audience-Messaging → höherer Trust</li>
+              <li>Research-Workflow + Backups → weniger Risiko</li>
+              <li>Outreach-Math → Budget sicher allokiert</li>
+              <li>3 maßgeschneiderte Creatives → weniger “Ad-Feel”</li>
+            </ul>
+          </div>
+          <div>
+            <ul class="list">
+              <li>Meta-Compliance Prozess → safer delivery</li>
+              <li>Tracking minimal aber robust → klare Entscheidungen</li>
+              <li>Optimisation Loop → Lernen & Skalieren im Monat</li>
+              <li>Dokumentation → wiederholbares Playbook</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Laís Domiciano • CHEEX Influencer Marketing Manager (Case) • Januar 2026
+    </footer>
+
+  </div>
+
+  <script>
+    // small nicety: highlight current section link on scroll (no heavy JS)
+    const links = Array.from(document.querySelectorAll('.toc a'));
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+    const onScroll = () => {
+      const y = window.scrollY + 120;
+      let active = sections[0];
+      for(const s of sections){
+        if(s.offsetTop <= y) active = s;
+      }
+      links.forEach(a => a.style.borderColor = "rgba(20,16,24,.10)");
+      const activeLink = links.find(a => a.getAttribute('href') === "#" + active.id);
+      if(activeLink) activeLink.style.borderColor = "rgba(255,60,126,.40)";
+    };
+    window.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  </script>
+</body>
+</html>
