@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>CHEEX Case | Laís Domiciano</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      /* CHEEX-inspired palette (approx.) */
       --bg:#fff6f1;
       --card:#ffffff;
       --ink:#141018;
       --muted:rgba(20,16,24,.68);
       --border:rgba(20,16,24,.10);
-      --p:#ff5a7a;         /* juicy pink */
-      --p2:#ff9a72;        /* peach */
-      --pd:#c93653;        /* deep berry */
+      --p:#ff5a7a;
+      --p2:#ff9a72;
+      --pd:#c93653;
       --ok:#2db47a;
       --bad:#ff3d5e;
       --r-lg:22px;
@@ -25,7 +25,7 @@
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
-      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      font-family:Inter,system-ui,sans-serif;
       color:var(--ink);
       background:
         radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%),
@@ -34,222 +34,175 @@
       scroll-behavior:smooth;
       overflow-x:hidden;
     }
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:10;
-      background:rgba(255,255,255,.82);
-      backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border);
-      padding:16px 20px;
-    }
-    .nav{
-      max-width:1160px;margin:0 auto;
-      display:flex;align-items:center;justify-content:space-between;gap:14px;
-    }
-    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
-    .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
-    .dots{display:flex;gap:10px;align-items:center}
-    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
-    .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
-    .timer{font-size:13px;color:var(--muted);white-space:nowrap}
 
-    section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:94px 20px 56px;opacity:0;transform:translateY(22px);transition:.7s}
-    section.visible{opacity:1;transform:translateY(0)}
-    .wrap{max-width:1160px;width:100%}
-
-    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
-    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px}
-    h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
-    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
-    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-    .small{font-size:14px;line-height:1.55;color:var(--muted)}
-
-    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
-    .col{flex:1 1 320px}
-    .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
-    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(255,90,122,.28)}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
-    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
-    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
-    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
-
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
-    .metric{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
-    .metric:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--p),var(--p2))}
-    .mv{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
-    .ml{font-size:13px;color:var(--muted)}
-
-    .ph{border:1px dashed rgba(20,16,24,.26);border-radius:var(--r-md);background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(20,16,24,.55);font-weight:700;padding:12px}
-    .ph.photo{height:150px}
-    .ph.snap{height:210px}
-    .ph.wide{height:130px;border-radius:var(--r-lg)}
-
-    .imgrow{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
-    .imgbox{
-      border:1px solid rgba(20,16,24,.10);
-      border-radius:var(--r-md);
-      overflow:hidden;
-      background:rgba(255,255,255,.75);
-      box-shadow:var(--shadow2);
-      position:relative;
-      min-height:260px;
+    section{
+      min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
+      padding:94px 20px 56px;
+      opacity:0;
+      transform:translateY(22px);
+      transition:.7s;
     }
-    .imgbox.snap{min-height:360px}
-    .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
-    .imgcap{
-      position:absolute;left:10px;top:10px;
-      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
-      padding:6px 10px;border-radius:999px;
-      background:rgba(255,255,255,.88);
-      border:1px solid rgba(20,16,24,.10);
-      color:rgba(20,16,24,.78);
+    section.visible{opacity:1;transform:translateY(0)}
+    .wrap{max-width:1160px;width:100%}
+
+    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;margin-bottom:14px}
+    h2{font-size:42px;margin-bottom:12px}
+    h3{font-size:26px;margin-bottom:8px}
+    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86)}
+    .grad{
+      background:linear-gradient(135deg,var(--p),var(--p2));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent
     }
-    .missing-note{margin-top:10px;font-size:12px;color:rgba(20,16,24,.60)}
+    .small{font-size:14px;color:var(--muted)}
 
-
-    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
-    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);vertical-align:top}
-    th{font-size:13px;color:rgba(20,16,24,.80);text-transform:uppercase;letter-spacing:.06em}
-
-    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(20,16,24,.12);background:rgba(255,255,255,.92);color:var(--ink);font-weight:800;text-decoration:none;box-shadow:0 12px 24px rgba(20,16,24,.08);transition:.18s}
-    .btn:hover{transform:translateY(-2px);border-color:rgba(255,90,122,.35)}
-    .btn.primary{background:linear-gradient(135deg,var(--p),var(--p2));border-color:transparent;color:#fff}
-
-    footer{padding:26px 20px 44px;text-align:center;color:var(--muted);font-size:13px}
-    @media (max-width:520px){h2{font-size:34px}section{padding:90px 16px 46px}}
-
-    .muted{font-size:14px;line-height:1.55;color:var(--muted);max-width:82ch}
-    .ascii{
-      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-      font-size:13px;line-height:1.55;color:rgba(20,16,24,.86);
-      background:rgba(255,255,255,.78);
-      border:1px solid rgba(20,16,24,.10);
-      border-radius:var(--r-md);
-      padding:14px;
-      overflow:auto;
-      white-space:pre;
+    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+    .col{flex:1 1 320px}
+    .card{
+      background:rgba(255,255,255,.92);
+      border:1px solid var(--border);
+      border-radius:var(--r-lg);
+      padding:22px;
       box-shadow:var(--shadow2);
-      margin-top:12px;
     }
-    .note{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:var(--r-md);
-      background:rgba(255,90,122,.08);
-      border:1px solid rgba(255,90,122,.18);
-      color:rgba(20,16,24,.82);
-      font-size:14px;
-      line-height:1.55;
-    }
-    .steps{margin:12px 0 0 18px;color:rgba(20,16,24,.86);font-size:15px;line-height:1.65}
-    .steps li{margin:6px 0}
-    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px}
-    .box{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2)}
+
+    .pill{font-size:12px;font-weight:800;padding:6px 12px;border-radius:999px;display:inline-block;margin-bottom:10px}
+    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
+    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
+    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
     .pill.neutral{background:rgba(20,16,24,.06);color:rgba(20,16,24,.78)}
 
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .btn{
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:800;
+      text-decoration:none;
+      border:1px solid rgba(20,16,24,.12);
+      background:rgba(255,255,255,.92);
+      color:var(--ink);
+    }
+    .btn.primary{
+      background:linear-gradient(135deg,var(--p),var(--p2));
+      border:none;
+      color:#fff;
+    }
+
+    .dots{display:flex;gap:10px;margin-top:14px}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer}
+    .dot.active{background:var(--p);transform:scale(1.5)}
+
+    .timer{
+      position:fixed;
+      top:18px;
+      right:18px;
+      font-size:13px;
+      color:var(--muted);
+      z-index:5;
+    }
+
+    pre.ascii{
+      font-family:monospace;
+      background:rgba(255,255,255,.78);
+      border:1px solid var(--border);
+      border-radius:var(--r-md);
+      padding:14px;
+      margin-top:12px;
+      white-space:pre;
+    }
+
+    footer{text-align:center;font-size:13px;color:var(--muted);padding:30px}
   </style>
 </head>
+
 <body>
-  <nav>
-    <div class="nav">
-      <div class="brand"><div class="logo" aria-hidden="true"></div>CHEEX Case · Influencer Marketing</div>
-      <div class="dots" id="dots"></div>
-      <div class="timer" id="timer">00:00</div>
+
+<div class="timer" id="timer">00:00</div>
+
+<section class="visible" data-title="Intro">
+  <div class="wrap">
+    <h1>
+      Learn → Feel → Explore<br>
+      <span class="grad">Influencer Marketing für CHEEX</span>
+    </h1>
+
+    <p class="small">
+      Ein performance-first Creator-Ansatz, der Education als sicheren Einstieg nutzt
+      und Lust ohne Scham erlebbar macht.
+    </p>
+
+    <div class="cta">
+      <a class="btn primary" href="#strategy">Strategie</a>
+      <a class="btn" href="#funnel">Funnel</a>
+      <a class="btn" href="#creators">Creator</a>
+      <a class="btn" href="#outreach">Outreach</a>
+      <a class="btn" href="#briefing">Briefing</a>
+      <a class="btn" href="#budget">Budget</a>
+      <a class="btn" href="#abschluss">Abschluss</a>
     </div>
-  </nav>
 
-  <section class="visible" data-title="Intro">
-    <div class="wrap">
-      <h1>Ein Performance-first Creator-Ansatz für <span class="grad">sichere, inklusive Lust</span></h1>
-      <p class="small"></p>
-      <div class="cta">
-        <a class="btn primary" href="#strategy">Zur Strategie</a>
-        <a class="btn" href="#creators">Creator Auswahl</a>
-        <a class="btn" href="#creators">Funnel Überblick</a>
-        <a class="btn" href="#creators">Creator Auswahl</a>
-        <a class="btn" href="#creators">Outreach Plan</a>
-        <a class="btn" href="#creators">Briefing & Brand Safety</a>
-        <a class="btn" href="#budget">Budget und KPIs</a>
-        <a class="btn" href="#budget">Abschluss</a>
-      </div>
-      <div class="grid" style="margin-top:18px">
-        <div class="metric"><div class="ml">Ziel</div><div class="mv">Umsatz und Conversions</div></div>
-        
-        <div class="metric"><div class="ml">Kanäle</div><div class="mv">Instagram und TikTok</div></div>
-        <div class="metric"><div class="ml">Arbeitsmodus</div><div class="mv">Testen → Lernen → Skalieren</div></div>
-        <div class="metric"><div class="ml">Leitplanken</div><div class="mv">Consent · Sicherheit · Fit</div></div>
-      </div>
-    </div>
-  </section>
+    <div class="dots" id="dots"></div>
+  </div>
+</section>
 
-  <section id="strategy" data-title="Kontext">
-    <div class="wrap">
-      <h2>Worauf ich optimiere</h2>
-      <div class="row">
-        <div class="col"><div class="card"><div class="pill solution">CHEEX brand</div><h3>Modern, ohne Klischee</h3><p class="small">Creator müssen zu CHEEX passen: selbstbewusst, echt, divers, consent-first. Kein „altes Porno-Internet“ Gefühl.</p></div></div>
-        <div class="col"><div class="card"><div class="pill problem">Reality</div><h3>Vertrauen ist der Engpass</h3><p class="small">In dieser Kategorie gewinnt Influencer Marketing nur, wenn sich Menschen sicher und verstanden fühlen. Sonst kann es nach hinten losgehen.</p></div></div>
-        <div class="col"><div class="card"><div class="pill kpi">Success</div><h3>Performance und Verantwortung</h3><p class="small">ROAS ist wichtig. Aber auch Erwartungen, Refunds und Stimmung in den Kommentaren. Ich messe beides und reagiere schnell.</p></div></div>
-  </section>
+<section id="strategy" data-title="Strategie">
+  <div class="wrap">
+    <h2>Strategie</h2>
+    <p class="small">
+      CHEEX gewinnt nicht über Provokation, sondern über Vertrauen.
+      Deshalb beginnt der Funnel mit Lernen, nicht mit Explizitheit.
+    </p>
 
-         <section id="funnel" data-title="Funnel">
-    <div class="wrap">
-      <h2>Funnel Überblick und Basis KPIs</h2>
-      <p class="small">Forecast mit Annahmen. Ziel ist ein klarer Überblick, wo wir optimieren können.</p>
-
-      <div class="row">
-        <div class="col">
-          <div class="card">
-            <div class="pill kpi">Funnel</div>
-            <pre class="ascii">TRAFFIC (Impressions)
-  |
-  | CTR (Klickrate)
-  v
-LANDINGPAGE
-  |
-  | Trial-Start Rate
-  v
-FREE TRIAL (7 Tage)
-  |
-  | Trial → Paid Conversion
-  v
-PAID ABO
-  |
-  | Retention (Monat 1–3)
-  v
-RETENTION / LTV</pre>
-            <div class="note"><strong>Optimierungshebel:</strong> Creator-Fit, Story-CTA, Landingpage, Trial-Onboarding (E-Mail/In-App), Angebot.</div>
-          </div>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="pill solution">Positionierung</div>
+          <h3>Education first</h3>
+          <p>Creator erklären, normalisieren und nehmen Druck raus. Die Pleasure Academy ist der sichere Einstieg.</p>
         </div>
-
-        <div class="col">
-          <div class="card">
-            <div class="pill kpi">Beispielzahlen</div>
-            <pre class="ascii">Impressions:        500.000
-CTR:                0,8%        → Klicks: 4.000
-Trial-Start Rate:   25%         → Trials: 1.000
-Trial → Paid:       18%         → Paid: 180
-Retention (3 Mon.): 65%         → Active nach 3M: 117</pre>
-
-            <table>
-              <thead><tr><th>KPI</th><th>Range</th><th>Notiz</th></tr></thead>
-              <tbody>
-                <tr><td>Ø CPM (TKP)</td><td>50 €</td><td>DACH Richtwert (Annahme)</td></tr>
-                <tr><td>CTR</td><td>0,6–1,0 %</td><td>abhängig von Creator + Hook</td></tr>
-                <tr><td>Klick → Trial</td><td>15–25 %</td><td>Landingpage + Framing</td></tr>
-                <tr><td>Trial → Paid</td><td>15–22 %</td><td>Onboarding + Produkt-Fit</td></tr>
-                <tr><td>Retention (3 Monate)</td><td>60–70 %</td><td>Education + Value</td></tr>
-              </tbody>
-            </table>
-
-            <p class="small" style="margin-top:10px">Hinweis: Die Zahlen sind bewusst als Range dargestellt.</p>
-          </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="pill.problem">Risiko</div>
+          <h3>Falscher Creator-Fit</h3>
+          <p>Zu explizite oder ironische Creator schaden Vertrauen und Conversion.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card">
+          <div class="pill.kpi">Ziel</div>
+          <h3>Qualitative Conversions</h3>
+          <p>Weniger Klicks, dafür mehr Paid Nutzer mit hoher Retention.</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+<section id="funnel" data-title="Funnel">
+  <div class="wrap">
+    <h2>Funnel Überblick</h2>
+    <pre class="ascii">
+Impressions
+  ↓
+Education (Pleasure Academy, Guides)
+  ↓
+Landingpage
+  ↓
+Free Trial (7 Tage)
+  ↓
+Paid Abo
+  ↓
+Retention / LTV
+    </pre>
+    <p class="small">
+      Der größte Hebel liegt zwischen Education → Trial und Trial → Paid.
+    </p>
+  </div>
+</section>
 
   <section id="creators" data-title="Creator">
     <div class="wrap">
@@ -591,41 +544,42 @@ Laís Domiciano
     </div>
   </section>
 
-  <footer>HTML Web Deck Vorlage. Platzhalter durch echte Creator Assets und Kampagnendaten ersetzen.</footer>
+<footer>
+  CHEEX Influencer Marketing Case · Laís Domiciano
+</footer>
 
-  <script>
-    const secs = Array.from(document.querySelectorAll('section'));
-    const dots = document.getElementById('dots');
+<script>
+  const secs=[...document.querySelectorAll('section')];
+  const dots=document.getElementById('dots');
 
-    secs.forEach((s, i) => {
-      const d = document.createElement('div');
-      d.className = 'dot' + (i === 0 ? ' active' : '');
-      d.title = s.dataset.title || ('Abschnitt ' + (i+1));
-      d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
-      dots.appendChild(d);
+  secs.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='dot'+(i===0?' active':'');
+    d.onclick=()=>s.scrollIntoView({behavior:'smooth'});
+    dots.appendChild(d);
+  });
+
+  const dotEls=[...document.querySelectorAll('.dot')];
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting)return;
+      e.target.classList.add('visible');
+      const i=secs.indexOf(e.target);
+      dotEls.forEach(x=>x.classList.remove('active'));
+      if(dotEls[i])dotEls[i].classList.add('active');
     });
+  },{threshold:.3});
+  secs.forEach(s=>obs.observe(s));
 
-    const dotEls = Array.from(document.querySelectorAll('.dot'));
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        e.target.classList.add('visible');
-        const idx = secs.indexOf(e.target);
-        dotEls.forEach(x => x.classList.remove('active'));
-        if (dotEls[idx]) dotEls[idx].classList.add('active');
-      });
-    }, { threshold: 0.25 });
+  const start=Date.now();
+  const t=document.getElementById('timer');
+  setInterval(()=>{
+    const s=Math.floor((Date.now()-start)/1000);
+    t.textContent=
+      String(Math.floor(s/60)).padStart(2,'0')+':'+
+      String(s%60).padStart(2,'0');
+  },300);
+</script>
 
-    secs.forEach(s => obs.observe(s));
-
-    const start = Date.now();
-    const t = document.getElementById('timer');
-    setInterval(() => {
-      const s = Math.floor((Date.now()-start)/1000);
-      const mm = String(Math.floor(s/60)).padStart(2,'0');
-      const ss = String(s%60).padStart(2,'0');
-      t.textContent = mm + ':' + ss;
-    }, 250);
-  </script>
 </body>
 </html>
