@@ -1,0 +1,953 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHEEX Case | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      /* CHEEX-inspired palette (approx.) */
+      --bg:#fff6f1;
+      --card:#ffffff;
+      --ink:#141018;
+      --muted:rgba(20,16,24,.68);
+      --border:rgba(20,16,24,.10);
+      --p:#ff5a7a;         /* juicy pink */
+      --p2:#ff9a72;        /* peach */
+      --pd:#c93653;        /* deep berry */
+      --ok:#2db47a;
+      --bad:#ff3d5e;
+      --r-lg:22px;
+      --r-md:16px;
+      --shadow:0 14px 40px rgba(20,16,24,.12);
+      --shadow2:0 8px 22px rgba(20,16,24,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%),
+        radial-gradient(1000px 520px at 95% 10%, rgba(255,154,114,.16), transparent 55%),
+        var(--bg);
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:10;
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:16px 20px;
+    }
+    .nav{
+      max-width:1160px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+    .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
+    .dots{display:flex;gap:10px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
+    .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
+    .timer{font-size:13px;color:var(--muted);white-space:nowrap}
+
+    section{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:94px 20px 56px;opacity:0;transform:translateY(22px);transition:.7s}
+    section.visible{opacity:1;transform:translateY(0)}
+    .wrap{max-width:1160px;width:100%}
+
+    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px}
+    h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
+    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .small{font-size:14px;line-height:1.55;color:var(--muted)}
+
+    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+    .col{flex:1 1 320px}
+    .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(255,90,122,.28)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
+    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
+    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
+
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+    .metric{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+    .metric:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--p),var(--p2))}
+    .mv{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+    .ml{font-size:13px;color:var(--muted)}
+
+    .ph{border:1px dashed rgba(20,16,24,.26);border-radius:var(--r-md);background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(20,16,24,.55);font-weight:700;padding:12px}
+    .ph.photo{height:150px}
+    .ph.snap{height:210px}
+    .ph.wide{height:130px;border-radius:var(--r-lg)}
+
+    .imgrow{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+    .imgbox{
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      overflow:hidden;
+      background:rgba(255,255,255,.75);
+      box-shadow:var(--shadow2);
+      position:relative;
+      min-height:260px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .imgbox.snap{min-height:360px}
+    .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+    .imgcap{
+      position:absolute;left:10px;top:10px;
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      padding:6px 10px;border-radius:999px;
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(20,16,24,.10);
+      color:rgba(20,16,24,.78);
+    }
+    .missing-note{margin-top:10px;font-size:12px;color:rgba(20,16,24,.60)}
+
+
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);vertical-align:top}
+    th{font-size:13px;color:rgba(20,16,24,.80);text-transform:uppercase;letter-spacing:.06em}
+
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(20,16,24,.12);background:rgba(255,255,255,.92);color:var(--ink);font-weight:800;text-decoration:none;box-shadow:0 12px 24px rgba(20,16,24,.08);transition:.18s}
+    .btn:hover{transform:translateY(-2px);border-color:rgba(255,90,122,.35)}
+    .btn.primary{background:linear-gradient(135deg,var(--p),var(--p2));border-color:transparent;color:#fff}
+
+    footer{padding:26px 20px 44px;text-align:center;color:var(--muted);font-size:13px}
+    @media (max-width:520px){h2{font-size:34px}section{padding:90px 16px 46px}}
+
+    .muted{font-size:14px;line-height:1.55;color:var(--muted);max-width:82ch}
+    .ascii{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:13px;line-height:1.55;color:rgba(20,16,24,.86);
+      background:rgba(255,255,255,.78);
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      padding:14px;
+      overflow:auto;
+      white-space:pre;
+      box-shadow:var(--shadow2);
+      margin-top:12px;
+    }
+    .note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:var(--r-md);
+      background:rgba(255,90,122,.08);
+      border:1px solid rgba(255,90,122,.18);
+      color:rgba(20,16,24,.82);
+      font-size:14px;
+      line-height:1.55;
+    }
+    .steps{margin:12px 0 0 18px;color:rgba(20,16,24,.86);font-size:15px;line-height:1.65}
+    .steps li{margin:6px 0}
+    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px}
+    .box{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2)}
+    .pill.neutral{background:rgba(20,16,24,.06);color:rgba(20,16,24,.78)}
+
+
+    .quicklinks{display:flex;gap:8px;align-items:center;flex:1;justify-content:center;flex-wrap:wrap}
+    .ql{font-size:12px;font-weight:800;letter-spacing:.04em;text-decoration:none;color:rgba(20,16,24,.78);
+        padding:8px 12px;border-radius:999px;border:1px solid rgba(20,16,24,.10);background:rgba(255,255,255,.72);
+        transition:.18s;white-space:nowrap}
+    .ql:hover{transform:translateY(-1px);border-color:rgba(255,90,122,.28);color:rgba(20,16,24,.92)}
+    @media (max-width:860px){.quicklinks{display:none}}
+
+  
+    /* Email block (Outreach) — keep content, improve wrapping */
+    .email-box{
+      max-width:720px;
+      margin:12px auto 0;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      padding:16px 18px;
+      box-shadow:var(--shadow2);
+    }
+    .email-pre{
+      margin:0;
+      white-space:pre-wrap;       /* allow wrapping while preserving line breaks */
+      word-break:break-word;
+      overflow-wrap:anywhere;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      font-size:14px;
+      line-height:1.65;
+      color:rgba(20,16,24,.90);
+    }
+
+  </style>
+</head>
+<body>
+  
+  <nav>
+    <div class="nav">
+      <div class="brand"><div class="logo" aria-hidden="true"></div>CHEEX Case · Influencer Marketing</div>
+      <div class="dots" id="dots"></div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </nav>
+
+  <section class="visible" data-title="Intro">
+    <div class="wrap">
+      <h1>Ein Creator-Ansatz für <span class="grad">sichere, inklusive Lust</span> und echte Learnings</h1>
+
+      <div class="cta">
+        <a class="btn primary" href="#strategy">Kontext</a>
+        <a class="btn" href="#concept">Konzept</a>
+        <a class="btn" href="#product">Produkt-Story</a>
+        <a class="btn" href="#funnel">Funnel</a>
+        <a class="btn" href="#kpisplus">KPI+</a>
+        <a class="btn" href="#creators">Creator</a>
+        <a class="btn" href="#outreach">Outreach</a>
+        <a class="btn" href="#briefing">Briefing</a>
+        <a class="btn" href="#compliance">Compliance</a>
+        <a class="btn" href="#budget">Budget</a>
+        <a class="btn" href="#abschluss">Abschluss</a>
+      </div>
+
+      <div class="grid" style="margin-top:18px">
+        <div class="metric"><div class="ml">Ziel</div><div class="mv">Umsatz und Conversions</div></div>
+        <div class="metric"><div class="ml">Kanäle</div><div class="mv">Instagram, YouTube und TikTok</div></div>
+        <div class="metric"><div class="ml">Arbeitsmodus</div><div class="mv">Testen → Lernen → Skalieren</div></div>
+        <div class="metric"><div class="ml">Leitplanken</div><div class="mv">Consent · Sicherheit · Fit</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="strategy" data-title="Kontext">
+    <div class="wrap">
+      <h2>Worauf ich optimiere</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">CHEEX brand</div><h3>Modern, ohne Klischee</h3><p class="small">Creator müssen zu CHEEX passen: selbstbewusst, echt, divers, consent-first. Kein „altes Porno-Internet“ Gefühl.</p></div></div>
+        <div class="col"><div class="card"><div class="pill problem">Reality</div><h3>Vertrauen ist der Engpass</h3><p class="small">In dieser Kategorie gewinnt Influencer Marketing nur, wenn sich Menschen sicher und verstanden fühlen.</p></div></div>
+        <div class="col"><div class="card"><div class="pill kpi">Success</div><h3>Performance und Verantwortung</h3><p class="small">ROAS ist wichtig. Aber auch Stimmung in den Kommentaren, Erwartungen und Refund Signale. Ich messe beides.</p></div></div>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="pill neutral">Audience Definition (DACH)</div>
+        <div class="row">
+          <div class="col">
+            <div class="box">
+              <h3>Kernzielgruppe</h3>
+              <ul class="steps" style="margin-left:18px">
+                <li><strong>Alter:</strong> 25–40 (Core), 18–24 (Test), 40+ (Expansion)</li>
+                <li><strong>Gender:</strong> primär Frauen & Couples; <em>Test</em>: Männer (Psychologie/Beziehungskontext)</li>
+                <li><strong>Sprache/Region:</strong> Deutsch · DACH (urbane Zentren + educated suburbs)</li>
+                <li><strong>Interessen:</strong> Beziehungen, Selbstbestimmung, Mental Health, Sexualaufklärung, Körperwissen, feministische Perspektiven</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box">
+              <h3>3 Segmente → 3 Frames</h3>
+              <table>
+                <thead><tr><th>Segment</th><th>Frame</th><th>CTA</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>„Self-Discovery“</strong> (F, 25–34)</td><td>Learn-first, safe space, keine Scham</td><td>„7 Tage kostenlos testen“</td></tr>
+                  <tr><td><strong>„Couples“</strong> (28–40)</td><td>Kommunikation + Intimität als Skill</td><td>„Zusammen ausprobieren“</td></tr>
+                  <tr><td><strong>„Mind & Body“</strong> (all, 25–39)</td><td>Psychologie/Neugier statt „Porn“-Frame</td><td>„Neugierig? Erst lernen, dann entscheiden“</td></tr>
+                </tbody>
+              </table>
+              <p class="muted" style="margin-top:10px"><strong>DACH Nuance:</strong> Diskretion + Education-Frame erhöht Trust (und verringert Plattform-Risiko).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="concept" data-title="Konzept">
+    <div class="wrap">
+      <h2>Kampagnenidee: „Neugier ohne Scham“</h2>
+      <p class="small">CHEEX wird als sicherer Raum gezeigt: echt, inklusiv, consent-first. Der Entry ist nicht „Watch now“, sondern häufig: <strong>Learn first</strong>.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Core Message</div>
+            <h3>So fühlt sich CHEEX an</h3>
+            <p class="small">Modern, respektvoll und nah an der Realität. Keine Klischees, keine Scham. Lust und Wissen gehören zusammen.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">CTA</div>
+            <h3>7 Tage kostenlos testen</h3>
+            <p class="small">Jeder Creator bekommt Code + Link (UTM). So messen wir Trials und Paid Conversions sauber.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Warum es wirkt</div>
+            <h3>Education baut Trust</h3>
+            <p class="small">Mit Pleasure Academy wird CHEEX „safe to talk about“. Das erhöht CTR, CVR und senkt Risiko auf Plattform.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="note"><strong>Leitprinzip:</strong> Wir verkaufen keinen „Porno-Moment“. Wir verkaufen einen sicheren Zugang zu Lust <strong>und</strong> Sex Education (inkl. Pleasure Academy).</div>
+    </div>
+  </section>
+
+  <section id="product" data-title="Produkt-Story">
+    <div class="wrap">
+      <h2>Produkt-Story: Pleasure Academy + Newsletter Learnings</h2>
+      <p class="small">CHEEX kann mehr als „Watch“. Es ist Education, Guidance und kuratierte Discovery. Das nutzen wir als Kampagnen-Engine: <strong>Learn → Trial → Paid → Retention</strong>.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Pleasure Academy</div>
+            <h3>Learn First, dann Lust</h3>
+            <p class="small">Creators schicken die Community zuerst in die Learn Sektion. Das senkt Hemmschwelle und erklärt den Wert von CHEEX in einfachen Worten.</p>
+            <div class="note"><strong>Newsletter Beispiele:</strong> „A Fingering Guide“ / „A Handjob Guide“ als Education Einstieg.</div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Studios / Collections</div>
+            <h3>Kuratierte Themen</h3>
+            <p class="small">Newsletter zeigt auch: „Popular Studios right now“ funktioniert als Discovery-Format. Das ist ein guter Creator-Frame: „Hier ist eine Collection, die zu dir passt“.</p>
+            <table>
+              <thead><tr><th>Angle</th><th>Creator Story</th></tr></thead>
+              <tbody>
+                <tr><td>Studio Spotlight</td><td>„Warum ich diese Collection spannend finde“ (ohne Explizitheit)</td></tr>
+                <tr><td>Theme Week</td><td>„Kommunikation, Lust, Körper, Vielfalt“ mit Learn + Watch Mix</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Offer Fit</div>
+            <h3>Commitment Barriere</h3>
+            <p class="small">Viele wollen nicht direkt 12 Monate. Deshalb nutzen wir einen Upgrade-Pfad: Trial → Option A (6 Monate) → Option B (Jahr).</p>
+            <div class="note"><strong>Beispiel:</strong> 6 Monate Mitgliedschaft als Zwischenstufe („low commitment“).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill neutral">So läuft es im Influencer Setup</div>
+        <table>
+          <thead><tr><th>Creator Content</th><th>Landing Ziel</th><th>Warum es wirkt</th></tr></thead>
+          <tbody>
+            <tr><td>Education Hook (Myth Busting, Consent, Kommunikation)</td><td>Pleasure Academy / Learn</td><td>Brand-safe Einstieg, Trust, höhere Qualität im Funnel</td></tr>
+            <tr><td>„Try it“ Moment</td><td>Free Trial</td><td>Klare Conversion-Phase mit CTA</td></tr>
+            <tr><td>Nach Trial</td><td>6M / Annual Offer</td><td>Value-Frame statt „Discount-only“</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <section data-title="Plan">
+    <div class="wrap">
+      <h2>Strategie auf einer Seite</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">Portfolio</div><h3>70 / 20 / 10 Aufteilung</h3><p class="small">70 Prozent bewährte Creator, 20 Prozent neue Tests, 10 Prozent mutige Experimente.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Positioning</div><h3>Education-first</h3><p class="small">Creators starten mit Learn, dann Trial. Paid und Retention kommen über Value (Academy, Magazine, Collections).</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Loop</div><h3>Wöchentlicher Rhythmus</h3><p class="small">Wöchentliche Test Slots, klares Reporting, klare Stop Regeln und schnelle Creative Iteration.</p></div></div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill kpi">Haupthebel</div>
+        <table>
+          <thead><tr><th>Hebel</th><th>Was ich mache</th><th>Was ich messe</th></tr></thead>
+          <tbody>
+            <tr><td>Creator Fit</td><td>Zielgruppen Fit, Tonalität, Safety Fit</td><td>CTR, CVR, Sentiment, Refund Signale</td></tr>
+            <tr><td>Offer</td><td>Trial Frame, 6M vs Annual, Upgrade Path</td><td>AOV, Trial→Paid, Churn, Payback</td></tr>
+            <tr><td>Creative</td><td>Hook → Learn/Proof → How it works → CTA</td><td>View-through, Saves, Shares, Kommentare</td></tr>
+            <tr><td>Skalierung</td><td>Budget zu Gewinnern, Fatigue begrenzen</td><td>ROAS Trend, Frequenz, abnehmende Wirkung</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="funnel" data-title="Funnel">
+    <div class="wrap">
+      <h2>Funnel Überblick</h2>
+      <p class="small">Forecast mit Annahmen. Ziel ist ein klarer Überblick, wo wir optimieren können.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Funnel</div>
+            <pre class="ascii">TRAFFIC (Impressions)
+  |
+  | Education-Entry
+  v
+PLEASURE ACADEMY (Learn)
+  |
+  | CTR (Klickrate)
+  v
+LANDINGPAGE
+  |
+  | Trial-Start Rate
+  v
+FREE TRIAL (7 Tage)
+  |
+  | Trial → Paid Conversion
+  v
+PAID ABO
+  |
+  | Retention (Monat 1–3)
+  v
+RETENTION / LTV</pre>
+            <div class="note"><strong>Optimierungshebel:</strong> Creator-Fit, Story-CTA, Learn Entry, Landingpage, Trial-Onboarding (E-Mail/In-App), Angebot.</div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Beispielzahlen</div>
+            <pre class="ascii">Impressions:        500.000
+CTR:                0,8%        → Klicks: 4.000
+Trial-Start Rate:   25%         → Trials: 1.000
+Trial → Paid:       18%         → Paid: 180
+Retention (3 Mon.): 65%         → Active nach 3M: 117</pre>
+
+            <table>
+              <thead><tr><th>KPI</th><th>Range</th><th>Notiz</th></tr></thead>
+              <tbody>
+                <tr><td>Ø CPM (TKP)</td><td>50 €</td><td>DACH Richtwert (Benchmark)</td></tr>
+                <tr><td>CTR</td><td>0,6–1,0 %</td><td>abhängig von Creator + Hook</td></tr>
+                <tr><td>Klick → Trial</td><td>15–25 %</td><td>Landingpage + Framing</td></tr>
+                <tr><td>Trial → Paid</td><td>15–22 %</td><td>Onboarding + Produkt-Fit</td></tr>
+                <tr><td>Retention (3 Monate)</td><td>60–70 %</td><td>Education + Value</td></tr>
+              </tbody>
+            </table>
+
+            <p class="small" style="margin-top:10px">Hinweis: Die Zahlen sind bewusst als Range dargestellt.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="kpisplus" data-title="KPI+">
+    <div class="wrap">
+      <h2>Erweiterte KPI-Logik (neben Free Trials)</h2>
+      <p class="small">Neben der Anzahl gestarteter Free Trials bewerte ich die <strong>Qualität</strong> und die <strong>nachhaltige Wirkung</strong> der Kampagne.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Primäre KPI</div>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Anzahl gestarteter 7-Tage-Free-Trials</strong> (über Creator-Code + UTM)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Sekundäre KPIs</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Trial → Paid Conversion Rate (nach Tag 7)</li>
+              <li>Cost per Trial (CPT) pro Influencer</li>
+              <li>Retention Rate (Tag 7 → Tag 30)</li>
+              <li>Share/Save/Bookmark Rate (Education-Content)</li>
+              <li>Kommentar-Qualität & Sentiment (qualitativ, nicht nur Volumen)</li>
+              <li>Creator-spezifischer Uplift: Trial → Paid & Retention</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Optimierung</div>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Budget-Shift</strong> nach Tag 10–14 zu Creators mit hoher Trial → Paid Conversion (Conversion-Lag berücksichtigen)</li>
+              <li><strong>Creative-Iteration</strong> bei hoher Trial-Rate, aber niedriger Retention</li>
+              <li><strong>Skalierung</strong> von Formaten mit hoher Vertrauens- und Speicherquote</li>
+            </ul>
+            <div class="note"><strong>Ziel:</strong> Nicht nur Trials „einsammeln“, sondern nachhaltig zahlende Nutzer:innen mit echtem Brand Fit gewinnen.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+ <section id="creators" data-title="Creator">
+    <div class="wrap">
+      <h2>Creator Auswahl (Top 3)</h2>
+      <p class="small">Diese drei Creator passen am besten zur Strategie: Vertrauen, Education und Performance.</p>
+      <div class="card" style="margin-top:16px">
+        <div class="pill neutral">Influencer Research – Tool Workflow</div>
+        <div class="grid2">
+          <div class="box">
+            <h3>Selection Criteria (CHEEX Fit)</h3>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Audience:</strong> DACH-Share &gt; 60% · Deutschsprachig</li>
+              <li><strong>Values:</strong> sex-positive, consent-first, inklusiv, keine Clickbait-Ästhetik</li>
+              <li><strong>Performance:</strong> stabile ER, Story Link Click Signals, „Save“-Quote bei Education</li>
+              <li><strong>Brand Safety:</strong> keine riskanten Content-Patterns (Takedowns / Shadow-Reach)</li>
+              <li><strong>Commercials:</strong> klare Preislogik pro Deliverable + Rechte</li>
+            </ul>
+          </div>
+          <div class="box">
+            <h3>So nutze ich das Research Tool</h3>
+            <ol class="steps">
+              <li>Filter: <strong>Region DACH</strong>, Sprache, Audience Demographics</li>
+              <li>Check: Audience Authenticity, Brand-Collab History, Engagement Quality</li>
+              <li>Shortlist: 20–30 Creators mit Notizen (Hook-Style, Tonalität, Risiken)</li>
+              <li>Estimate: Fee Range + Deliverable Paket (Reel/Stories/Carousel)</li>
+              <li>Priorisieren: <strong>Fit × Forecast</strong> (Trials &amp; CAC Potential) → Outreach Waves</li>
+            </ol>
+          </div>
+          <div class="box">
+            <h3>2 Research Approaches (Beispiele)</h3>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Top-down:</strong> Seed Creator → „Lookalikes“ (ähnliche Audience/Topics) → Shortlist</li>
+              <li><strong>Bottom-up:</strong> Keywords/Hashtags (z. B. Beziehungen, Aufklärung, Körperwissen) → Creator Scan → DACH &amp; Safety Filter</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Bester Fit</div>
+            <h3>Louisa Noack</h3>
+            <p class="small">Rolle: Aufklärung und Vertrauen. Perfekt für Trial Conversions, weil die Community reflektiert ist und gerne speichert und klickt.</p>
+
+            <div class="imgrow">
+              <div class="imgbox">
+                <div class="imgcap">Foto</div>
+                <img src="Louisa_photo.png" alt="Louisa Noack Foto" onerror="this.closest('.imgbox').innerHTML='<div class=\'ph photo\'>Bitte Datei hinzufügen: Louisa_photo.png</div>';">
+              </div>
+              <div class="imgbox snap">
+                <div class="imgcap">Instagram</div>
+                <img src="Louisa_insta.jpeg" alt="Louisa Noack Instagram Snapshot" onerror="this.closest('.imgbox').innerHTML='<div class=\'ph snap\'>Bitte Datei hinzufügen: Louisa_insta.jpeg</div>';">
+              </div>
+            </div>
+            <div class="missing-note"></div>
+
+            <table>
+              <thead><tr><th>Warum</th><th>Format</th><th>KPI Fokus</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Sexualität, Beziehungen, Selbstbestimmung. Sehr glaubwürdig, brand safe.</td>
+                  <td>1 Reel (Hook → Education → CHEEX) + 3–5 Stories mit Link Sticker</td>
+                  <td>Trials, CTR, CVR, Trial zu Paid</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="note"><strong>Video Konzept (IG Reel):</strong>
+              <ul class="steps" style="margin-left:18px">
+                <li><strong>Hook:</strong> „Warum viele bei Sex Education eine Hemmschwelle haben – und warum das normal ist“</li><li><strong>Value:</strong> 1 konkreter Myth-Bust + 1 praktische Kommunikations-Frage (couple-friendly)</li><li><strong>CHEEX Proof:</strong> „Pleasure Academy“ als sicherer Einstieg (ohne explizite Bilder)</li><li><strong>CTA:</strong> Link Sticker + Code: „7 Tage kostenlos testen“ (‚erst lernen, dann entscheiden‘)</li>
+              </ul>
+            </div>
+
+
+            <div class="cta">
+              <a class="btn" target="_blank" rel="noopener" href="https://www.instagram.com/louisanoack/">Instagram öffnen</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Hero Reach</div>
+            <h3>Leon Windscheid</h3>
+            <p class="small">Rolle: Mainstream Credibility. Stark für Awareness und „Sex ist Kopfsache“ Framing. Eher teuer, deshalb gezielt als Hero Slot.</p>
+
+            <div class="imgrow">
+              <div class="imgbox">
+                <div class="imgcap">Foto</div>
+                <img src="Leon_photo.png" alt="Leon Windscheid Foto" onerror="this.closest('.imgbox').innerHTML='<div class=\'ph photo\'>Bitte Datei hinzufügen: Leon_photo.png</div>';">
+              </div>
+              <div class="imgbox snap">
+                <div class="imgcap">Instagram</div>
+                <img src="Leon_insta.jpeg" alt="Leon Windscheid Instagram Snapshot" onerror="this.closest('.imgbox').innerHTML='<div class=\'ph snap\'>Bitte Datei hinzufügen: Leon_insta.jpeg</div>';">
+              </div>
+            </div>
+            <div class="missing-note"></div>
+
+            <table>
+              <thead><tr><th>Warum</th><th>Format</th><th>KPI Fokus</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Psychologie Perspektive. Hohe Glaubwürdigkeit, geringes „Porn“-Framing.</td>
+                  <td>Reel oder Carousel mit 1 klarer Message + Story CTA zum Trial</td>
+                  <td>Reach, Saves, CTR, Trials (assistiert)</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="note"><strong>Video Konzept (IG Reel):</strong>
+              <ul class="steps" style="margin-left:18px">
+                <li><strong>Hook:</strong> „Sex ist Kopfsache – was uns wirklich blockiert“ (Psychologie-Frame)</li><li><strong>Value:</strong> 3-Minuten Micro-Lesson (Scham, Erwartungsdruck, Kommunikation)</li><li><strong>CHEEX Proof:</strong> „Ethical Entertainment + Education“ als Tool für Selbstreflexion</li><li><strong>CTA:</strong> Trial als „Experiment“: 7 Tage testen, danach bewusst entscheiden</li>
+              </ul>
+            </div>
+
+
+            <div class="cta">
+              <a class="btn" target="_blank" rel="noopener" href="https://www.instagram.com/leonwindscheid/">Instagram öffnen</a>
+              <a class="btn" target="_blank" rel="noopener" href="https://www.prisma.de/news/tv/Terra-Xplore-Sex-Reine-Kopfsache-Die-ZDF-Doku-mit-Leon-Windscheid,53697640">Kontext (Artikel)</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Community</div>
+            <h3>feminismus24</h3>
+            <p class="small">Rolle: Haltung und Community. Sehr gut für Diskussion, Saves und Weiterleitungen. Ideal als Ergänzung zu Louisa, um Reichweite in die Community zu bringen.</p>
+
+            <div class="imgrow">
+              <div class="imgbox">
+                <div class="imgcap">Profil</div>
+                <img src="feminismus_photo.png" alt="feminismus24 Profil Foto" onerror="this.closest('.imgbox').innerHTML='<div class=\'ph photo\'>Bitte Datei hinzufügen: feminismus_photo.png</div>';">
+              </div>
+              <div class="imgbox snap">
+                <div class="imgcap">Instagram</div>
+                <img src="Feminismus_insta.jpeg" alt="feminismus24 Instagram Snapshot" onerror="this.closest('.imgbox').innerHTML='<div class=\'ph snap\'>Bitte Datei hinzufügen: Feminismus_insta.jpeg</div>';">
+              </div>
+            </div>
+            <div class="missing-note"></div>
+
+            <table>
+              <thead><tr><th>Warum</th><th>Format</th><th>KPI Fokus</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Enttabuisierung und Selbstbestimmung. Sehr aktive Kommentare.</td>
+                  <td>Carousel „Myth Busting“ + Story CTA zum Trial</td>
+                  <td>Saves, Shares, CTR, Trials</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="note"><strong>Video Konzept (IG Reel):</strong>
+              <ul class="steps" style="margin-left:18px">
+                <li><strong>Hook:</strong> „Consent ist sexy – und beginnt vor dem Schlafzimmer“</li><li><strong>Value:</strong> Carousel/Reel Hybrid: 3 Consent-Mythen + 1 konkrete Gesprächsformel</li><li><strong>CHEEX Proof:</strong> Plattform als inklusiver Safe Space (Diversität + Education)</li><li><strong>CTA:</strong> „7 Tage kostenlos testen“ + Code, plus pinned Comment mit Learn-Link</li>
+              </ul>
+            </div>
+
+
+            <div class="cta">
+              <a class="btn" target="_blank" rel="noopener" href="https://www.instagram.com/feminismus24/">Instagram öffnen</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill kpi">Hinweis</div>
+        <p class="small">Ich würde zuerst mit Louisa starten und dann mit feminismus24 ergänzen. Leon ist ein optionaler Hero Slot, wenn wir einen großen „Trust Moment“ in der Kampagne setzen wollen.</p>
+      </div>
+    </div>
+  </section>
+
+ <section id="outreach" data-title="Outreach">
+    <div class="wrap">
+      <h2>Outreach Plan</h2>
+      <p class="small">Ziel: passende Creator finden, fair verhandeln und langfristig starke Creator Relations aufbauen.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Prozess</div>
+            <ol class="steps">
+              <li><strong>Research:</strong> Shortlist (20–30 Creator), Audience-Fit + Brand Fit prüfen</li>
+              <li><strong>Kontakt:</strong> persönliches Intro, klarer Value, klare Erwartung</li>
+              <li><strong>Call:</strong> Tonalität, Grenzen, Timing, Kosten, Deliverables</li>
+              <li><strong>Deal:</strong> Paket + Tracking (Code/UTM) + Nutzungsrechte + Reporting</li>
+            </ol>
+            <div class="note" style="margin-top:12px"><strong>Kernbotschaften:</strong> CHEEX ist ethisch, inklusiv, consent-first. Kein klassischer Porno. Klarer Performance-Setup mit Code/UTM.</div>
+          
+            <div class="card" style="margin-top:16px">
+              <div class="pill kpi">Budget Allocation Math</div>
+              <h3>Wie viele Creator muss ich kontaktieren?</h3>
+              <p class="small">Vorgabe: <strong>Reply Rate ≥ 40%</strong>, <strong>Acceptance Rate ≈ 1/3</strong>. Erwartete Bookings pro Kontakt: 0,40 × 0,33 ≈ <strong>13,2%</strong>.</p>
+              <table>
+                <thead><tr><th>Beispiel</th><th>Annahme</th><th>Ergebnis</th></tr></thead>
+                <tbody>
+                  <tr><td>Ø Paketpreis</td><td>4.000 € pro Creator (Reel + Stories)</td><td>Budget 40k → ca. <strong>10</strong> Bookings</td></tr>
+                  <tr><td>Kontakte nötig</td><td>10 / 0,132</td><td>≈ <strong>76</strong> Kontakte (Range 60–90)</td></tr>
+                  <tr><td>Scheduling</td><td>Waves à 20–30 Creators</td><td>3 Waves: schnell füllen + Learnings nutzen</td></tr>
+                </tbody>
+              </table>
+              <p class="muted" style="margin-top:10px">Die Top 3 hier sind der „Anchor“ – der Rest des Budgets wird mit Mid-Tier Creators gefüllt (besser planbar, oft effizienter im CAC).</p>
+            </div>
+</div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Outreach Text</div>
+            <p class="muted">Kurz, persönlich, ohne Sales-Druck.</p>
+            <div class="email-box"><pre class="email-pre">Hi Louisa,
+
+ich arbeite bei CHEEX, einer Plattform für sex-positive Aufklärung und ethischen, inklusiven Adult Content.
+Ich verfolge deinen Content schon länger – besonders deine Beiträge zu Selbstbestimmung, Beziehungen und dem Enttabuisieren von Sexualität – und finde, dass deine Art, Themen ruhig, reflektiert und ohne Sensationsdrang zu vermitteln, extrem gut zu unseren Werten passt.
+
+Bei CHEEX geht es nicht um Provokation, sondern um Wissen, Sicherheit und Neugier – u. a. über unsere Pleasure Academy, in der wir Menschen einen geschützten Einstieg in Sexualbildung ermöglichen. Genau diesen Zugang sehe ich auch stark in deinem Content.
+
+Wir planen aktuell eine educational-first Kampagne mit ausgewählten Creator:innen, bei der es um eine 7-tägige kostenlose Trial-Phase geht – mit viel inhaltlicher Freiheit, klaren Leitplanken und Fokus auf Vertrauen statt Druck.
+
+Hättest du grundsätzlich Lust, dir das einmal unverbindlich anzuschauen und darüber zu sprechen, ob und wie eine Zusammenarbeit für dich sinnvoll wäre?
+
+Liebe Grüße
+Laís</pre></div>
+
+            <div class="grid2" style="margin-top:12px">
+              <div class="box">
+                <h3>Was ich vorbereite</h3>
+                <ul class="steps" style="margin-left:18px">
+                  <li>Audience Notes + Brand Fit</li>
+                  <li>Paketidee + Preisrahmen</li>
+                  <li>Tracking Setup (UTM + Code)</li>
+                </ul>
+              </div>
+              <div class="box">
+                <h3>Was ich im Call kläre</h3>
+                <ul class="steps" style="margin-left:18px">
+                  <li>Deliverables (Reel, Stories, Carousel)</li>
+                  <li>Posting Timing + 1–2 Iterationen</li>
+                  <li>Nutzungsrechte + Brand Safety</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  
+  <section id="briefing" data-title="Briefing">
+    <div class="wrap">
+      <h2>Briefing und Brand Safety</h2>
+      <p class="small">Ziel: klarer Rahmen, aber genug Freiheit für authentischen Content. Brand-safe, platform-safe, performance-ready.</p>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill neutral">Influencer Briefing – Kernbestandteile</div>
+        <table>
+          <thead><tr><th>Element</th><th>Inhalt</th><th>Warum wichtig</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1) Kampagnen-Ziel</strong></td><td>Education-first → Trial als niedrigschwelliger Einstieg (ohne Verkaufsdruck)</td><td>Trust, Brand Safety, höhere Funnel-Qualität</td></tr>
+            <tr><td><strong>2) Do’s & Don’ts</strong></td><td>Ton, Sprache, Visuals, Tabus, Plattform-Safety</td><td>Konstanz + weniger Risk bei Ausspielung</td></tr>
+            <tr><td><strong>3) CTA & Tracking</strong></td><td>Creator-Code + UTM, Disclosure, klare CTA-Formulierung</td><td>Messbarkeit + saubere Optimierung</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Must-have</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Positionierung: ethisch, inklusiv, consent-first</li>
+              <li>Hook in den ersten 2 Sekunden</li>
+              <li>Klare CTA: „7 Tage kostenlos testen“</li>
+              <li>Tracking: Code + Link (UTM)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill problem">Don’ts</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Keine expliziten Bilder oder sexualisierte Thumbnails</li>
+              <li>Kein Shaming, kein Druck, kein Clickbait</li>
+              <li>Kein „Porno“-Framing (CHEEX ist Education-first)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Abnahme</div>
+            <p class="small">Ich mache eine schnelle Vorab-Check-Schleife (Text/Slides) für Brand Safety. Kein Over-Control, aber klare Leitplanken.</p>
+            <div class="note"><strong>Standard:</strong> 1 kurze Review Runde, danach live gehen.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+
+  
+  <section id="compliance" data-title="Compliance">
+    <div class="wrap">
+      <h2>Plattform-Compliance & Content-Moderation (Meta)</h2>
+      <p class="small">Ziel: Maximale Reichweite bei gleichzeitiger Einhaltung der Meta-Richtlinien – ohne Angst und ohne „Over-Policing“ der Creator.</p>
+
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Content-Leitplanken</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Kein Zeigen oder Beschreiben expliziter sexueller Handlungen</li>
+              <li>Fokus auf Bildung, Sprache, Reflexion und persönliche Erfahrungen</li>
+              <li>Visuell: Gesichter, Text-Overlays, Alltagssituationen (neutral, nicht sexualisiert)</li>
+              <li>Neutrale Wortwahl statt Trigger-Begriffe (Education-Frame)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Präventive Maßnahmen</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Briefing-Checkliste: Hook, Caption, CTA, Visuals</li>
+              <li>1 schnelle Vorabprüfung (Text/Slides) vor Posting</li>
+              <li>CTA klar, aber „soft“ (Neugier statt Druck)</li>
+              <li>Alternative Formulierungen bereit (falls Reach eingeschränkt)</li>
+            </ul>
+            <div class="note"><strong>Prinzip:</strong> Education-first schützt die Marke und verbessert Performance (Trust → Klick → Trial → Retention).</div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <div class="pill problem">Fallback</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Creative-Varianten (Hook/CTA) für schnelle Iteration</li>
+              <li>Caption-Switch bei Moderation/Shadow-Reach Signalen</li>
+              <li>Story-first CTA, wenn Feed-restriktiv</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<section id="budget" data-title="Budget">
+    <div class="wrap">
+      <h2>Budget, Verhandlung und Performance</h2>
+
+      <div class="grid">
+        <div class="metric"><div class="ml">Monatsbudget (Beispiel)</div><div class="mv">€40,000</div></div>
+        <div class="metric"><div class="ml">Benchmark CPM (DACH)</div><div class="mv">50 €</div></div>
+        <div class="metric"><div class="ml">Stop Regeln</div><div class="mv">Tag 3–5 / 10–14</div></div>
+        <div class="metric"><div class="ml">Skalierung</div><div class="mv">Winners only</div></div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <div class="pill neutral">Negotiation Benchmarks</div>
+        <h3>Preisrahmen und Verhandlung (DACH)</h3>
+        <p class="small">Ich nutze als Startpunkt einen <strong>Ø CPM (TKP) von 50 €</strong> im DACH-Markt. Damit kann ich Pakete fair bewerten und bei „zu teuer“ sauber argumentieren.</p>
+        <table>
+          <thead><tr><th>Baustein</th><th>Was ich verhandle</th><th>Ziel</th></tr></thead>
+          <tbody>
+            <tr><td>Deliverables</td><td>Reel + Story Set + Link Sticker + Pin Comment</td><td>Messbarkeit und klarer Funnel</td></tr>
+            <tr><td>Usage Rights</td><td>Ads Usage / Whitelisting (optional)</td><td>Skalierung möglich machen</td></tr>
+            <tr><td>Reporting</td><td>Story Link Klicks, Saves, Replies, View-Through</td><td>Schnell lernen, schnell optimieren</td></tr>
+            <tr><td>Exklusivität</td><td>Kategorie-exklusiv, zeitlich begrenzt</td><td>Schutz ohne hohe Kosten</td></tr>
+          </tbody>
+        </table>
+        <p class="small">Benchmark: CPM DACH Ø 50 € (Video-Link im Appendix).</p>
+      </div>
+      <div class="card" style="margin-top:16px">
+        <div class="pill kpi">CAC / ROI</div>
+        <h3>Von Trials zu CAC &amp; Payback (Performance-View)</h3>
+        <table>
+          <thead><tr><th>Definition</th><th>Formel</th><th>Warum wichtig</th></tr></thead>
+          <tbody>
+            <tr><td><strong>CAC (Paid)</strong></td><td>Spend / # Paid Conversions (aus Trial)</td><td>Vergleichbarkeit zu anderen Channels, Skalierungs-Entscheidungen</td></tr>
+            <tr><td><strong>CPA Trial</strong></td><td>Spend / # Trials</td><td>Frühindikator (ab Tag 1) – aber nicht allein entscheidend</td></tr>
+            <tr><td><strong>Payback</strong></td><td>CAC / Ø Deckungsbeitrag pro Monat</td><td>Wie schnell sich das Budget „zurückzahlt“</td></tr>
+            <tr><td><strong>ROI</strong></td><td>(LTV − CAC) / CAC</td><td>Langfristige Profitabilität, nicht nur kurzfristige Trials</td></tr>
+          </tbody>
+        </table>
+        <div class="note"><strong>Timing:</strong> Optimierung in 2 Wellen: <strong>Tag 3–5</strong> (Proxy: CTR, Klick→Trial, CPT) + <strong>Tag 10–14</strong> (Trial→Paid). Retention/LTV Trends ab <strong>Tag 30+</strong>.</div>
+      </div>
+
+
+      <div class="note"><strong>Wichtig:</strong> Nicht das ganze Budget geht an die drei Creator. Ein Teil bleibt für Tests, Learnings und Reserve.</div>
+    </div>
+  </section>
+
+  <section id="abschluss" data-title="Abschluss">
+    <div class="wrap">
+      <h2>Abschluss</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">Performance</div><h3>Ich skaliere, was funktioniert</h3><p class="small">Tracking, regelmäßiges Reporting und klare Stop Regeln. Weniger Chaos, mehr Lernen.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Stil und Safety</div><h3>Ich schütze die Marke</h3><p class="small">Selbstbewusstes, modernes, consent-sicheres Storytelling. Strenger Creator Fit.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Ownership</div><h3>Ich mache End to End</h3><p class="small">Research, Verhandlung, Briefing, Launch, Analyse. Ich übernehme Verantwortung für Ergebnisse.</p></div></div>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Zurück nach oben</a>
+      </div>
+    </div>
+  </section>
+  
+  <section id="appendix" data-title="Appendix">
+    <div class="wrap">
+      <h2>Appendix</h2>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill neutral">Benchmark Link</div>
+            <h3>CPM (DACH) Referenz</h3>
+            <p class="small">Video-Link (zur Einordnung des Ø CPM 50 € Benchmarks):</p>
+            <pre class="ascii">https://www.youtube.com/watch?v=vJggiSYpZg0</pre>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill neutral">Newsletter Learnings</div>
+            <h3>Warum das on-brand ist</h3>
+            <p class="small">Pleasure Academy (Learn), Guides und Collections sowie „Low-Commitment“ Angebote passen zu CHEEX: safe, inklusiv, fair, ohne Scham.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Danke ♡ </footer>
+
+<script>
+    const secs = Array.from(document.querySelectorAll('section'));
+    const dots = document.getElementById('dots');
+
+    secs.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = s.dataset.title || ('Abschnitt ' + (i+1));
+      d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+      dots.appendChild(d);
+    });
+
+    const dotEls = Array.from(document.querySelectorAll('.dot'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        const idx = secs.indexOf(e.target);
+        dotEls.forEach(x => x.classList.remove('active'));
+        if (dotEls[idx]) dotEls[idx].classList.add('active');
+      });
+    }, { threshold: 0.25 });
+
+    secs.forEach(s => obs.observe(s));
+
+    const start = Date.now();
+    const t = document.getElementById('timer');
+    setInterval(() => {
+      const s = Math.floor((Date.now()-start)/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      t.textContent = mm + ':' + ss;
+    }, 250);
+  </script>
+</body>
+</html>
