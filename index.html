@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>CHEEX Case Study | Influencer Marketing DACH</title>
+  <title>CHEEX Case Study | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#fffbf9;
+      --bg:#fff6f1;
       --card:#ffffff;
       --ink:#141018;
       --muted:rgba(20,16,24,.68);
@@ -19,279 +20,195 @@
       --r-lg:22px;
       --r-md:16px;
       --shadow:0 14px 40px rgba(20,16,24,.12);
-      --shadow2:0 8px 22px rgba(20,16,24,.10);
-    }
-    @page {
-      size: A4;
-      margin: 15mm;
-      background-color: #fffbf9;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
-      font-family:'Helvetica Neue', Arial, sans-serif;
+      font-family:'Inter', sans-serif;
       color:var(--ink);
       background: var(--bg);
-      line-height: 1.5;
-      font-size: 11pt;
+      line-height: 1.6;
     }
-    .container { max-width: 900px; margin: 0 auto; }
-    
-    .header {
-      padding: 20px 0;
-      border-bottom: 2px solid var(--p);
-      margin-bottom: 40px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:10;
+      background:rgba(255,255,255,.9);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid var(--border);
+      padding:16px 20px;
     }
-    .header-logo { font-weight: 800; font-size: 18pt; letter-spacing: -1px; }
-    .header-meta { font-size: 9pt; text-align: right; color: var(--muted); text-transform: uppercase; }
+    .nav-content{
+      max-width:1100px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .logo-area{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;}
+    .logo-box{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--p),var(--p2));}
 
-    section { margin-bottom: 50px; page-break-inside: avoid; }
+    section{max-width:1100px;margin:0 auto;padding:100px 20px 60px;}
+    .hero{text-align:center;padding:140px 20px 80px;}
+    h1{font-size:clamp(36px,5vw,64px);line-height:1.1;letter-spacing:-.03em;margin-bottom:20px;}
+    h2{font-size:32px;letter-spacing:-.02em;margin-bottom:24px;border-left:5px solid var(--p);padding-left:15px;}
+    h3{font-size:22px;margin-bottom:10px;color:var(--pd);}
     
-    h1 { font-size: 32pt; line-height: 1.1; margin-bottom: 10px; letter-spacing: -1.5px; }
-    h2 { font-size: 18pt; color: var(--pd); margin-bottom: 15px; border-left: 5px solid var(--p); padding-left: 15px; }
-    h3 { font-size: 13pt; margin-bottom: 10px; font-weight: 700; }
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px;box-shadow:var(--shadow);height:100%;}
     
-    .hero-text { font-size: 14pt; color: var(--muted); margin-bottom: 40px; }
+    .pill{display:inline-block;padding:6px 12px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:12px;}
+    .pill-pink{background:rgba(255,90,122,0.1);color:var(--p);}
+    .pill-green{background:rgba(45,180,122,0.1);color:var(--ok);}
 
-    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--r-md);
-      padding: 20px;
-      box-shadow: var(--shadow2);
-    }
-    
-    .pill {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 8pt;
-      font-weight: 800;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-      background: rgba(255, 90, 122, 0.1);
-      color: var(--p);
-    }
-    
-    .calculation-box {
-      background: #f4f4f4;
-      padding: 15px;
-      border-radius: 10px;
-      font-family: monospace;
-      font-size: 10pt;
-      border: 1px solid #ddd;
-    }
-    
-    .email-box {
-      background: #fff;
-      border: 1px solid #eee;
-      padding: 20px;
-      border-radius: 10px;
-      font-style: italic;
-      color: #444;
-      white-space: pre-wrap;
+    .calculation-box{
+      background:#fdf0ed;
+      padding:20px;
+      border-radius:var(--r-md);
+      font-family:monospace;
+      font-size:16px;
+      border:1px solid rgba(255,90,122,0.2);
+      margin:15px 0;
     }
 
-    .creator-section {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-top: 20px;
-    }
-    .creator-card {
-      text-align: center;
-      background: #fff;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-    }
-    .creator-card img {
-      width: 100%;
-      border-radius: 8px;
-      margin-bottom: 10px;
+    .email-box{
+      background:#fff;
+      border:1px solid var(--border);
+      padding:25px;
+      border-radius:var(--r-md);
+      white-space:pre-wrap;
+      font-style:italic;
+      font-size:15px;
+      line-height:1.7;
     }
 
-    ul { padding-left: 20px; }
-    li { margin-bottom: 5px; }
-    
-    .footer {
-      margin-top: 60px;
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
-      font-size: 9pt;
-      color: var(--muted);
-      text-align: center;
-    }
+    .creator-img{width:100%;height:220px;background:#eee;border-radius:12px;object-fit:cover;margin-bottom:15px;}
+    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    footer{text-align:center;padding:40px;color:var(--muted);font-size:14px;border-top:1px solid var(--border);}
   </style>
 </head>
 <body>
 
-<div class="container">
-  <div class="header">
-    <div class="header-logo">CHEEX <span style="color:var(--p)">DACH</span></div>
-    <div class="header-meta">Laís Domiciano<br>Influencer Marketing Case Study 2026</div>
+<nav>
+  <div class="nav-content">
+    <div class="logo-area"><div class="logo-box"></div> CHEEX DACH Strategie</div>
+    <div style="font-size:12px; font-weight:bold; color:var(--muted);">LAÍS DOMICIANO | 2026</div>
   </div>
+</nav>
 
-  <section id="intro">
-    <h1>Wachstum durch Vertrauen & Education</h1>
-    <p class="hero-text">Strategische Erschließung des DACH-Marktes mit Fokus auf Trial-Conversions und Brand-Safe Performance.</p>
-  </section>
+<section class="hero">
+  <h1>Wachstum durch <span class="grad">authentische Education</span></h1>
+  <p>Ein Performance-getriebener Influencer-Ansatz zur Skalierung von Free Trials im DACH-Markt.</p>
+</section>
 
-  <section id="audience">
-    <h2>1. Zielgruppen-Targeting DACH</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="pill">Demografie & Psychografie</div>
-        <h3>Wer ist die CHEEX-Community?</h3>
-        <ul>
-          <li><strong>Alter:</strong> 25–45 Jahre (Schwerpunkt auf finanzielle Unabhängigkeit).</li>
-          <li><strong>Mindset:</strong> Sex-positiv, achtsam, qualitätsbewusst.</li>
-          <li><strong>Need:</strong> Wunsch nach seriöser, ästhetischer Aufklärung statt Klischees.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <div class="pill">DACH Nuancen</div>
-        <h3>Was macht den Markt besonders?</h3>
-        <ul>
-          <li>Hoher Anspruch an <strong>Datenschutz</strong> und Diskretion.</li>
-          <li>Kultureller Fokus auf "Professionalität" (DACH-Nutzer suchen Experten-Validierung).</li>
-          <li>Hohe Skepsis gegenüber "Fake-Engagement" bei Influencern.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="research">
-    <h2>2. Research-Methodik & Tools</h2>
+<section id="research">
+  <h2>1. Research & Tool-Methodik</h2>
+  <div class="grid">
     <div class="card">
-      <h3>Einsatz von Discovery-Tools (z.B. Storyclash/Modash)</h3>
-      <p>Mein Prozess basiert auf datengestützter Validierung statt Bauchgefühl:</p>
-      <div class="grid">
-        <div>
-          <h3>Tool-Funktionalitäten:</h3>
-          <ul>
-            <li><strong>Audience Credibility:</strong> Bot-Check der Follower.</li>
-            <li><strong>Topic Analysis:</strong> Identifikation von Creatoren, die bereits über "Wellbeing" sprechen.</li>
-            <li><strong>Engagement-Benchmarks:</strong> Vergleich mit DACH-Durchschnitt.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Zwei Research-Ansätze:</h3>
-          <p><strong>A: Keyword-Clustering:</strong> Suche nach "Self-Love", "Beziehungstipps" & "Modern Parenting".</p>
-          <p><strong>B: Lookalike-Audience:</strong> Analyse von Followern von Premium-Brands wie <em>Blinkist</em> oder <em>Clue</em>.</p>
-        </div>
-      </div>
+      <div class="pill pill-pink">Vorgehensweise</div>
+      <h3>Data-Driven Discovery</h3>
+      <p>Mein manueller Research wird durch Tools wie <strong>Storyclash</strong> oder <strong>Modash</strong> validiert, um folgende Punkte sicherzustellen:</p>
+      <ul style="margin-top:10px; padding-left:20px;">
+        <li><strong>Audience Credibility:</strong> Ausschluss von Bots und Fake-Followern (>85% Real-Score).</li>
+        <li><strong>Growth-Check:</strong> Identifikation von Creatoren mit organischem Momentum.</li>
+        <li><strong>Brand-Overlap:</strong> Analyse, ob die Follower bereits Marken wie <em>Blinkist</em> oder <em>Clue</em> konsumieren.</li>
+      </ul>
     </div>
-  </section>
-
-  <section id="budget">
-    <h2>3. Budget & Outreach Kalkulation</h2>
-    <div class="grid">
-      <div class="card">
-        <div class="pill">Die Rechnung (€40.000)</div>
-        <p>Um das Budget effizient einzusetzen, berechnen wir das nötige Outreach-Volumen:</p>
-        <div class="calculation-box">
-          Budget: 40.000 €<br>
-          Ø Fee pro Creator: 2.500 €<br>
-          Booking-Ziel: 16 Influencer<br><br>
-          - Acceptance Rate (1/3): 48 "Ja"-Antworten nötig<br>
-          - Reply Rate (40%): 120 Anfragen nötig
-        </div>
-        <p style="font-size:9pt; margin-top:10px;"><strong>Ergebnis:</strong> Kontaktierung von min. 120 Creatoren zur Budgetausschöpfung.</p>
-      </div>
-      <div class="card">
-        <div class="pill">Verhandlungstaktik</div>
-        <h3>Umgang mit hohen Honoraren</h3>
-        <ul>
-          <li><strong>Benchmark-Check:</strong> Abgleich mit DACH-CPM-Benchmark (Ø 50€).</li>
-          <li><strong>Performance-Hybrid:</strong> Kombination aus Fixum und Bonus pro Trial.</li>
-          <li><strong>Usage-Deals:</strong> Verhandlung von Whitelisting-Rechten gegen höhere Fees zur Skalierung.</li>
-        </ul>
-      </div>
+    <div class="card">
+      <div class="pill pill-pink">KPI Fokus</div>
+      <h3>Zielgruppen-Fit</h3>
+      <p>Fokus auf DACH-Nischen: Modern Relationships, Mental Health und Female Empowerment. Wir suchen keine "Reichweite", sondern "Vertrauens-Kapital".</p>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section id="outreach">
-    <h2>4. Outreach-Strategie</h2>
-    <p>Persönlicher Kontakt ist in dieser sensiblen Nische der Schlüssel zum Erfolg.</p>
-    <div class="email-box">
+<section id="outreach">
+  <h2>2. Outreach & Budget-Kalkulation</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="pill pill-green">Mathematik des Erfolgs</div>
+      <h3>Volumen-Prognose (€40.000 Budget)</h3>
+      <p>Basierend auf Markt-Benchmarks kalkuliere ich den nötigen Outreach für eine volle Budget-Ausschöpfung:</p>
+      <div class="calculation-box">
+        Budget: €40.000<br>
+        Ø Fee: €2.500 (16 Bookings nötig)<br><br>
+        1. Booking Ziel: 16 Creator<br>
+        2. Acceptance (1/3): 48 Zusagen nötig<br>
+        3. Reply Rate (40%): 120 Kontakte nötig
+      </div>
+      <p><strong>Fokus:</strong> Kontaktierung von 120 hochqualitativen Leads für maximale CVR.</p>
+    </div>
+    <div class="card">
+      <div class="pill pill-pink">Verhandlungstaktik</div>
+      <h3>Umgang mit hohen Fees</h3>
+      <p>Sollte ein Creator über dem Budget liegen:</p>
+      <ul style="margin-top:10px; padding-left:20px;">
+        <li><strong>Data-Benchmarking:</strong> Argumentation über den DACH-CPM von ~€50.</li>
+        <li><strong>Performance-Hybrid:</strong> Reduziertes Fixum + Bonus pro Trial-Start.</li>
+        <li><strong>Usage-Rights:</strong> Wertsteigerung des Deals durch Content-Nutzungsrechte für CHEEX Paid Ads.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="message">
+  <h2>3. Die Outreach-Botschaft</h2>
+  <div class="email-box">
 Hi [Name],
 
 ich arbeite bei CHEEX, einer Plattform für sex-positive Aufklärung und ethischen Adult Content.
-Ich verfolge deinen Content schon länger – besonders deine Beiträge zu Selbstbestimmung und dem Enttabuisieren von Sexualität – und finde, dass deine Art, Themen zu vermitteln, extrem gut zu uns passt.
+Ich verfolge deinen Content schon länger – besonders deine Beiträge zu Selbstbestimmung und dem Enttabuisieren von Sexualität – und finde, dass deine Art, Themen reflektiert zu vermitteln, extrem gut zu uns passt.
 
 Bei CHEEX geht es nicht um Provokation, sondern um Wissen und Sicherheit – u.a. über unsere Pleasure Academy. Wir planen aktuell eine Kampagne mit Fokus auf einen 7-tägigen Trial-Zugang.
 
-Hättest du Lust, dir das einmal unverbindlich anzuschauen?
+Hättest du grundsätzlich Lust, dir das einmal unverbindlich anzuschauen?
 
 Beste Grüße,
 Laís
-    </div>
-  </section>
+  </div>
+</section>
 
-  <section id="creators">
-    <h2>5. Creator Portfolio</h2>
-    <div class="creator-section">
-      <div class="creator-card">
-        <div style="height:120px; background:#eee; border-radius:8px; margin-bottom:10px; display:flex; align-items:center; justify-content:center;">Louisa Noack</div>
-        <h3>Louisa Noack</h3>
-        <p style="font-size:9pt;">Fokus: Enttabuisierung & Beziehungen.</p>
-      </div>
-      <div class="creator-card">
-        <div style="height:120px; background:#eee; border-radius:8px; margin-bottom:10px; display:flex; align-items:center; justify-content:center;">Leon Windscheid</div>
-        <h3>Leon Windscheid</h3>
-        <p style="font-size:9pt;">Fokus: Psychologie & Wohlbefinden.</p>
-      </div>
-      <div class="creator-card">
-        <div style="height:120px; background:#eee; border-radius:8px; margin-bottom:10px; display:flex; align-items:center; justify-content:center;">feminismus24</div>
-        <h3>feminismus24</h3>
-        <p style="font-size:9pt;">Fokus: Female Empowerment & Ethics.</p>
-      </div>
+<section id="creators">
+  <h2>4. Creator Konzepte & Innovation</h2>
+  <div class="grid">
+    <div class="card">
+      <img src="Louisa_photo.png" class="creator-img" alt="Louisa Noack" onerror="this.src='https://via.placeholder.com/300x200?text=Louisa+Noack'">
+      <h3>Louisa Noack</h3>
+      <p><strong>Konzept:</strong> "Pleasure Myths" – Aufklärung über gängige Mythen mit der Pleasure Academy als Lösung.</p>
     </div>
-  </section>
-
-  <section id="outside-box">
-    <h2>6. Outside-the-Box Idee</h2>
+    <div class="card">
+      <img src="Leon_photo.png" class="creator-img" alt="Leon Windscheid" onerror="this.src='https://via.placeholder.com/300x200?text=Leon+Windscheid'">
+      <h3>Leon Windscheid</h3>
+      <p><strong>Konzept:</strong> "Psychologie der Lust" – Deep Dive in das Gehirn und warum sexuelle Wellness wichtig ist.</p>
+    </div>
     <div class="card" style="border: 2px solid var(--p);">
-      <h3>"The Anonymous Q&A Story Takeover"</h3>
-      <p>Statt statischer Werbung nutzen wir den Fragen-Sticker für anonyme Fragen zu Sexualität & Körper.</p>
+      <div class="pill pill-pink">Outside the Box</div>
+      <h3>"Interactive Pleasure Quiz"</h3>
+      <p><strong>Die Idee:</strong> Eine Story-Serie mit anonymen Quiz-Stickern zu Sexualwissen.</p>
+      <p style="margin-top:10px;"><strong>Conversion-Hebel:</strong> Die Auflösung der Fragen gibt es exklusiv in der Pleasure Academy. Der User wird durch Neugier in den 7-Tage-Trial geleitet (Gamification).</p>
+    </div>
+  </div>
+</section>
+
+<section id="compliance">
+  <h2>5. Compliance & Briefing</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Meta-Guidelines</h3>
       <ul>
-        <li><strong>Mechanik:</strong> Der Creator beantwortet 5 Fragen kompetent.</li>
-        <li><strong>Conversion:</strong> "Mehr tiefergehende Guides zu genau diesen Themen findest du in der CHEEX Pleasure Academy – teste es 7 Tage kostenlos."</li>
-        <li><strong>Vorteil:</strong> Maximale Relevanz und Engagement durch echte Community-Probleme.</li>
+        <li>Keine expliziten Handlungen oder Thumbnails.</li>
+        <li>Fokus auf Bildungssprache statt Slang.</li>
+        <li>Safe-for-Work Visuals (Gesichter & Text-Overlays).</li>
       </ul>
     </div>
-  </section>
-
-  <section id="kpis">
-    <h2>7. Compliance & Erfolgsmessung</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Meta-Sicherheit</h3>
-        <ul>
-          <li>Review aller Creatives auf visuelle Compliance.</li>
-          <li>Fokus auf Bildungssprache statt Slang.</li>
-          <li>"Safe-for-Work" Snippets als Hook.</li>
-        </ul>
-      </div>
-      <div class="card">
-        <h3>Haupt-KPIs</h3>
-        <ul>
-          <li><strong>Primär:</strong> Anzahl Free Trials.</li>
-          <li><strong>Sekundär:</strong> Trial-to-Paid Conversion Rate (Tag 14).</li>
-          <li><strong>Brand:</strong> Sentiment & Save-Rate des Contents.</li>
-        </ul>
-      </div>
+    <div class="card">
+      <h3>Briefing Essentials</h3>
+      <ol style="padding-left:20px;">
+        <li><strong>Hook:</strong> Starke Frage in den ersten 3 Sek.</li>
+        <li><strong>Value:</strong> Erklären der Pleasure Academy.</li>
+        <li><strong>CTA:</strong> Klare Anweisung zum 7-Tage-Trial.</li>
+      </ol>
     </div>
-  </section>
-
-  <div class="footer">
-    Dokument erstellt für das finale Interview mit Sophie & Guido | CHEEX 2026
   </div>
-</div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Laís Domiciano - CHEEX Case Study DACH</p>
+</footer>
 
 </body>
 </html>
