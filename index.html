@@ -9,50 +9,55 @@
     :root{
       --bg:#fff6f1; --card:#ffffff; --ink:#141018; --muted:rgba(20,16,24,.68);
       --border:rgba(20,16,24,.10); --p:#ff5a7a; --p2:#ff9a72; --pd:#c93653;
-      --ok:#2db47a; --r-lg:22px; --r-md:16px;
+      --ok:#2db47a; --bad:#ff3d5e; --r-lg:22px; --r-md:16px;
       --shadow:0 14px 40px rgba(20,16,24,.12); --shadow2:0 8px 22px rgba(20,16,24,.10);
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
-      font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--ink);
-      background: radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%), var(--bg);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background: radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%), radial-gradient(1000px 520px at 95% 10%, rgba(255,154,114,.16), transparent 55%), var(--bg);
       scroll-behavior:smooth; overflow-x:hidden;
     }
-    nav{
-      position:fixed;top:0;left:0;right:0;z-index:100;
-      background:rgba(255,255,255,.82); backdrop-filter:blur(12px);
-      border-bottom:1px solid var(--border); padding:16px 20px;
-    }
+    nav{ position:fixed;top:0;left:0;right:0;z-index:10; background:rgba(255,255,255,.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:16px 20px; }
     .nav{ max-width:1160px;margin:0 auto; display:flex;align-items:center;justify-content:space-between;gap:14px; }
     .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
     .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
-    
-    /* Die Navigations-Buttons (Dots) */
     .dots{display:flex;gap:10px;align-items:center}
     .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
     .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
     .timer{font-size:13px;color:var(--muted);white-space:nowrap}
-
-    section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:100px 20px 42px;opacity:0;transform:translateY(22px);transition:.7s}
+    section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:78px 20px 42px;opacity:0;transform:translateY(22px);transition:.7s}
     section.visible{opacity:1;transform:translateY(0)}
     .wrap{max-width:1160px;width:100%}
-
     h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
-    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px; color:var(--pd);}
+    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px}
     h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
     p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
     .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-
+    .small{font-size:14px;line-height:1.55;color:var(--muted)}
     .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
     .col{flex:1 1 320px}
     .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
-    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;margin-bottom:10px; background:rgba(255,90,122,.12); color:var(--pd);}
-    
-    .ascii{ font-family:monospace; background:rgba(20,16,24,0.04); padding:15px; border-radius:10px; display:block; white-space:pre; overflow-x:auto; margin:15px 0; }
-    .note{ margin-top:12px; padding:12px 14px; border-radius:var(--r-md); background:rgba(255,90,122,.08); border:1px solid rgba(255,90,122,.18); font-size:14px; }
-    
-    table{width:100%;border-collapse:collapse;margin-top:10px;}
-    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);text-align:left;}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(255,90,122,.28)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
+    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
+    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
+    .metric{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+    .metric:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--p),var(--p2))}
+    .mv{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+    .ml{font-size:13px;color:var(--muted)}
+    .imgbox{border:1px solid rgba(20,16,24,.10);border-radius:var(--r-md);overflow:hidden;background:rgba(255,255,255,.75);box-shadow:var(--shadow2);position:relative;min-height:260px;display:flex;align-items:center;justify-content:center;}
+    .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+    .imgcap{position:absolute;left:10px;top:10px;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid rgba(20,16,24,.10);color:rgba(20,16,24,.78);}
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);vertical-align:top}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(20,16,24,.12);background:rgba(255,255,255,.92);color:var(--ink);font-weight:800;text-decoration:none;box-shadow:0 12px 24px rgba(20,16,24,.08);transition:.18s}
+    .btn.primary{background:linear-gradient(135deg,var(--p),var(--p2));border-color:transparent;color:#fff}
+    .ascii{font-family:monospace;font-size:13px;line-height:1.55;color:rgba(20,16,24,.86);background:rgba(255,255,255,.78);border:1px solid rgba(20,16,24,.10);border-radius:var(--r-md);padding:14px;overflow:auto;white-space:pre;box-shadow:var(--shadow2);margin-top:12px;}
+    .email-box{max-width:720px;margin:12px auto 0;background:rgba(255,255,255,.92);border:1px solid rgba(20,16,24,.10);border-radius:var(--r-md);padding:16px 18px;box-shadow:var(--shadow2);}
+    .email-pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:Inter,sans-serif;font-size:14px;line-height:1.65;}
   </style>
 </head>
 <body>
@@ -67,112 +72,112 @@
 
   <section class="visible" data-title="Intro">
     <div class="wrap">
-      <h1>Education-First: <br><span class="grad">Wachstum durch Vertrauen</span></h1>
+      <h1>Education-First: <span class="grad">Wachstum durch Vertrauen</span></h1>
       <div class="row">
-        <div class="col"><div class="card"><h3>Ziel</h3><p>Maximierung der Free-Trial Subscriptions im DACH-Markt.</p></div></div>
-        <div class="col"><div class="card"><h3>Budget</h3><p>€40.000 / Monat (effizient allokiert).</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Ziel</div><h3>Umsatz & Conversions</h3><p class="small">Maximierung der Free-Trials durch authentisches Storytelling im DACH-Markt.</p></div></div>
+        <div class="col"><div class="card"><div class="pill kpi">Budget</div><h3>€40.000 / Monat</h3><p class="small">Strategische Allokation auf High-Performance & Test-Segmente.</p></div></div>
       </div>
     </div>
   </section>
 
-  <section id="audience" data-title="Audience">
+  <section id="strategy" data-title="Kontext">
     <div class="wrap">
-      <div class="pill">1. Audience Definition</div>
-      <h2>Zielgruppen DACH</h2>
+      <h2>Zielgruppen-Fokus DACH</h2>
       <div class="row">
-        <div class="col"><div class="card"><h3>Die bewusste Entdeckerin</h3><p>22–35 J., sucht Empowerment & ethischen Content. Messaging: "Sexual Wellness als Self-Care."</p></div></div>
-        <div class="col"><div class="card"><h3>Das neugierige Paar</h3><p>Nutzen die Pleasure Academy zur Inspiration & Kommunikation. Messaging: "Gemeinsam wachsen."</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Entdeckerin (22-35)</div><h3>Bewusster Genuss</h3><p class="small">Sucht nach Empowerment, Sicherheit und ethischem Content. Messaging: "Self-care für deine Intimität."</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Paare</div><h3>Gemeinsames Wachstum</h3><p class="small">Nutzen die Pleasure Academy zur Inspiration. Messaging: "Bessere Kommunikation durch Wissen."</p></div></div>
+        <div class="col"><div class="card"><div class="pill problem">Reality</div><h3>Trust als Engpass</h3><p class="small">Kein "altes Porno-Gefühl". Wir gewinnen nur durch echte Glaubwürdigkeit und Consent-first Prinzipien.</p></div></div>
       </div>
     </div>
   </section>
 
-  <section id="research" data-title="Research">
+  <section id="funnel" data-title="Funnel">
     <div class="wrap">
-      <div class="pill">2. Influencer Identification</div>
-      <h2>Tool-gestützter Research-Prozess</h2>
-      <div class="card">
-        <h3>Methodik & Kriterien</h3>
-        <p>Einsatz von Tools zur Qualitätssicherung:</p>
-        <ul style="margin: 15px 0 0 20px;">
-          <li><strong>Audience Quality Check:</strong> >75% reale Follower, DACH-Anteil >70%.</li>
-          <li><strong>Engagement:</strong> Mind. 2% Rate für echten Community-Impact.</li>
-          <li><strong>Sentiment:</strong> Prüfung der Kommentare auf Brand-Safe Dialoge.</li>
-        </ul>
-      </div>
+      <h2>Conversion Funnel</h2>
       <div class="row">
-        <div class="col"><div class="card"><h3>Ansatz A: Keyword-Mining</h3><p>Suche nach Experten in Sex-Positivity & Psychologie.</p></div></div>
-        <div class="col"><div class="card"><h3>Ansatz B: Lookalike-Scaling</h3><p>Analyse von Audience-Überschneidungen erfolgreicher Partner.</p></div></div>
+        <div class="col">
+          <div class="card">
+            <pre class="ascii">TRAFFIC (Instagram/TikTok)
+  | -> Hook & Education
+LANDINGPAGE (Trust & Offer)
+  | -> 25% Trial-Start Rate
+FREE TRIAL (7 Tage)
+  | -> Activation (1. Guide)
+PAID SUBSCRIPTION</pre>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h3>KPI Benchmark</h3>
+            <table>
+              <tr><td>Ø CPM DACH</td><td>50 €</td></tr>
+              <tr><td>Klick -> Trial</td><td>15-25%</td></tr>
+              <tr><td>Trial -> Paid</td><td>18% (Ziel)</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="creators" data-title="Creator">
+    <div class="wrap">
+      <h2>Research & Creator Auswahl</h2>
+      <p class="small"><strong>Research:</strong> Ich nutze Tools für Audience-Audits (DACH-Anteil >70%, Fake-Check) & Sentiment-Analyse der Kommentare.</p>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Trust</div>
+            <h3>Louisa Noack</h3>
+            <p class="small"><strong>Konzept:</strong> Reel "3 Mythen über Lust". Hook -> Education -> CTA zur Pleasure Academy Trial.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Logic</div>
+            <h3>Leon Windscheid</h3>
+            <p class="small"><strong>Konzept:</strong> "Sex beginnt im Kopf". Psychologisches Framing für Paare & reflektierte Männer.</p>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Inklusion</div>
+            <h3>feminismus24</h3>
+            <p class="small"><strong>Konzept:</strong> "Body Positivity & Consent". Fokus auf die ethischen Werte von CHEEX.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="outreach" data-title="Outreach">
     <div class="wrap">
-      <div class="pill">3. Budget & Strategie</div>
-      <h2>Die Mathematik hinter den 40k €</h2>
-      <div class="card">
-        <h3>Kalkulation (40% Reply / 33% Acceptance)</h3>
-        <p>Um ~26 Kooperationen à €1.500 zu buchen:</p>
-        <pre class="ascii">
-1. Initialer Outreach:   ~ 195 Creator
-2. Rückmeldungen (40%):  ~ 78 Creator
-3. Finales Booking (1/3): ~ 26 Partner
-        </pre>
-        <div class="note"><strong>Verhandlung:</strong> Nutzung von €50 CPM-Benchmark & Paket-Deals für ROI-Stabilität.</div>
-      </div>
-    </div>
-  </section>
-
-  <section id="creatives" data-title="Creatives">
-    <div class="wrap">
-      <div class="pill">4. Creative Strategy</div>
-      <h2>Video-Konzepte & Hooks</h2>
+      <h2>Outreach & Kalkulation</h2>
       <div class="row">
-        <div class="col"><div class="card"><h3>Louisa Noack</h3><p>"3 Mythen über Lust" – Education-Hook zur Academy.</p></div></div>
-        <div class="col"><div class="card"><h3>Leon Windscheid</h3><p>"Sex beginnt im Kopf" – Psychologischer Beziehungs-Angle.</p></div></div>
-        <div class="col"><div class="card" style="border:1px solid var(--p)"><h3>Out-of-the-Box</h3><p><strong>7-Day Journey:</strong> Ein Creator dokumentiert täglich (SFW) seine Academy-Erfahrungen.</p></div></div>
+        <div class="col">
+          <div class="card">
+            <h3>Die 195-Kontakte-Logik</h3>
+            <p class="small">Um €40k Budget bei ~26 Bookings voll auszuschöpfen (33% Acceptance / 40% Reply Rate):</p>
+            <pre class="ascii">1. Initialer Outreach: 195 Creator
+2. Antworten: 78 Creator
+3. Bookings: 26 Partner</pre>
+          </div>
+        </div>
+        <div class="col">
+          <div class="email-box"><pre class="email-pre">Hi Louisa,
+ich arbeite bei CHEEX. Dein Content zu Empowerment passt perfekt zu unseren Werten (ethisch, inklusiv, consent-first). Hättest du Lust auf eine Education-first Kampagne zur Pleasure Academy?
+Liebe Grüße, Laís</pre></div>
+        </div>
       </div>
     </div>
   </section>
 
   <section id="compliance" data-title="Compliance">
     <div class="wrap">
-      <div class="pill">5. Compliance & Safety</div>
-      <h2>Plattform-Sicherheit (Meta)</h2>
-      <div class="card">
-        <h3>Moderation & Reichweite</h3>
-        <ul style="margin-left:20px;">
-          <li><strong>Safe-Wording:</strong> "Spicy" & "Pleasure" statt restriktiver Begriffe.</li>
-          <li><strong>Visuals:</strong> Fokus auf Gesichter & Text-Overlay (keine Explizitheit).</li>
-          <li><strong>Briefing:</strong> Klare Leitplanken zur Vermeidung von Shadowbans.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="performance" data-title="Performance">
-    <div class="wrap">
-      <div class="pill">6. Performance Evaluation</div>
-      <h2>Erfolg messbar machen</h2>
-      <div class="card">
-        <table>
-          <thead><tr><th>KPI</th><th>Fokus</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Trial-Start Rate</strong></td><td>Effizienz des Creatives & CTA.</td></tr>
-            <tr><td><strong>Activation Rate</strong></td><td>Start einer Academy-Lesson binnen 48h.</td></tr>
-            <tr><td><strong>Trial-to-Paid</strong></td><td>Langfristiger ROI nach 7–14 Tagen.</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
-
-  <section id="abschluss" data-title="Abschluss">
-    <div class="wrap">
-      <h2>Zusammenfassung</h2>
+      <h2>Safety & Performance</h2>
       <div class="row">
-        <div class="col"><div class="card"><h3>Datenfokus</h3><p>Strenge Optimierung auf Trial-to-Paid Conversions.</p></div></div>
-        <div class="col"><div class="card"><h3>Brand Safety</h3><p>Hohe Qualität durch "Education-first" Ansatz.</p></div></div>
+        <div class="col"><div class="card"><h3>Meta Compliance</h3><p class="small">Shadowban-Prävention: SFW-Sprache ("Spicy"), keine expliziten Bilder, Fokus auf Bildung.</p></div></div>
+        <div class="col"><div class="card"><h3>KPI+ Metriken</h3><p class="small">Wir messen: Activation Rate im Trial, Trial-to-Paid (Tag 7-14) und Kommentar-Sentiment.</p></div></div>
       </div>
     </div>
   </section>
@@ -180,15 +185,12 @@
   <script>
     const secs = Array.from(document.querySelectorAll('section'));
     const dots = document.getElementById('dots');
-
-    // Dots generieren
     secs.forEach((s, i) => {
       const d = document.createElement('div');
       d.className = 'dot' + (i === 0 ? ' active' : '');
       d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
       dots.appendChild(d);
     });
-
     const dotEls = Array.from(document.querySelectorAll('.dot'));
     const obs = new IntersectionObserver((entries) => {
       entries.forEach(e => {
@@ -199,10 +201,7 @@
         if (dotEls[idx]) dotEls[idx].classList.add('active');
       });
     }, { threshold: 0.3 });
-
     secs.forEach(s => obs.observe(s));
-
-    // Timer
     const start = Date.now();
     const t = document.getElementById('timer');
     setInterval(() => {
