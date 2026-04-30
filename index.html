@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHEEX Case | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff6f1; --card:#ffffff; --ink:#141018; --muted:rgba(20,16,24,.68);
+      --border:rgba(20,16,24,.10); --p:#ff5a7a; --p2:#ff9a72; --pd:#c93653;
+      --ok:#2db47a; --r-lg:22px; --r-md:16px;
+      --shadow:0 14px 40px rgba(20,16,24,.12); --shadow2:0 8px 22px rgba(20,16,24,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--ink);
+      background: radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%), var(--bg);
+      scroll-behavior:smooth; overflow-x:hidden;
+    }
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      background:rgba(255,255,255,.82); backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border); padding:16px 20px;
+    }
+    .nav{ max-width:1160px;margin:0 auto; display:flex;align-items:center;justify-content:space-between;gap:14px; }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+    .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
+    
+    /* Die Navigations-Buttons (Dots) */
+    .dots{display:flex;gap:10px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
+    .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
+    .timer{font-size:13px;color:var(--muted);white-space:nowrap}
+
+    section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:100px 20px 42px;opacity:0;transform:translateY(22px);transition:.7s}
+    section.visible{opacity:1;transform:translateY(0)}
+    .wrap{max-width:1160px;width:100%}
+
+    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px; color:var(--pd);}
+    h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
+    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+    .col{flex:1 1 320px}
+    .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;margin-bottom:10px; background:rgba(255,90,122,.12); color:var(--pd);}
+    
+    .ascii{ font-family:monospace; background:rgba(20,16,24,0.04); padding:15px; border-radius:10px; display:block; white-space:pre; overflow-x:auto; margin:15px 0; }
+    .note{ margin-top:12px; padding:12px 14px; border-radius:var(--r-md); background:rgba(255,90,122,.08); border:1px solid rgba(255,90,122,.18); font-size:14px; }
+    
+    table{width:100%;border-collapse:collapse;margin-top:10px;}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);text-align:left;}
+  </style>
+</head>
+<body>
+  
+  <nav>
+    <div class="nav">
+      <div class="brand"><div class="logo"></div>CHEEX Case · Influencer Marketing</div>
+      <div class="dots" id="dots"></div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </nav>
+
+  <section class="visible" data-title="Intro">
+    <div class="wrap">
+      <h1>Education-First: <br><span class="grad">Wachstum durch Vertrauen</span></h1>
+      <div class="row">
+        <div class="col"><div class="card"><h3>Ziel</h3><p>Maximierung der Free-Trial Subscriptions im DACH-Markt.</p></div></div>
+        <div class="col"><div class="card"><h3>Budget</h3><p>€40.000 / Monat (effizient allokiert).</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="audience" data-title="Audience">
+    <div class="wrap">
+      <div class="pill">1. Audience Definition</div>
+      <h2>Zielgruppen DACH</h2>
+      <div class="row">
+        <div class="col"><div class="card"><h3>Die bewusste Entdeckerin</h3><p>22–35 J., sucht Empowerment & ethischen Content. Messaging: "Sexual Wellness als Self-Care."</p></div></div>
+        <div class="col"><div class="card"><h3>Das neugierige Paar</h3><p>Nutzen die Pleasure Academy zur Inspiration & Kommunikation. Messaging: "Gemeinsam wachsen."</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="research" data-title="Research">
+    <div class="wrap">
+      <div class="pill">2. Influencer Identification</div>
+      <h2>Tool-gestützter Research-Prozess</h2>
+      <div class="card">
+        <h3>Methodik & Kriterien</h3>
+        <p>Einsatz von Tools zur Qualitätssicherung:</p>
+        <ul style="margin: 15px 0 0 20px;">
+          <li><strong>Audience Quality Check:</strong> >75% reale Follower, DACH-Anteil >70%.</li>
+          <li><strong>Engagement:</strong> Mind. 2% Rate für echten Community-Impact.</li>
+          <li><strong>Sentiment:</strong> Prüfung der Kommentare auf Brand-Safe Dialoge.</li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col"><div class="card"><h3>Ansatz A: Keyword-Mining</h3><p>Suche nach Experten in Sex-Positivity & Psychologie.</p></div></div>
+        <div class="col"><div class="card"><h3>Ansatz B: Lookalike-Scaling</h3><p>Analyse von Audience-Überschneidungen erfolgreicher Partner.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="outreach" data-title="Outreach">
+    <div class="wrap">
+      <div class="pill">3. Budget & Strategie</div>
+      <h2>Die Mathematik hinter den 40k €</h2>
+      <div class="card">
+        <h3>Kalkulation (40% Reply / 33% Acceptance)</h3>
+        <p>Um ~26 Kooperationen à €1.500 zu buchen:</p>
+        <pre class="ascii">
+1. Initialer Outreach:   ~ 195 Creator
+2. Rückmeldungen (40%):  ~ 78 Creator
+3. Finales Booking (1/3): ~ 26 Partner
+        </pre>
+        <div class="note"><strong>Verhandlung:</strong> Nutzung von €50 CPM-Benchmark & Paket-Deals für ROI-Stabilität.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="creatives" data-title="Creatives">
+    <div class="wrap">
+      <div class="pill">4. Creative Strategy</div>
+      <h2>Video-Konzepte & Hooks</h2>
+      <div class="row">
+        <div class="col"><div class="card"><h3>Louisa Noack</h3><p>"3 Mythen über Lust" – Education-Hook zur Academy.</p></div></div>
+        <div class="col"><div class="card"><h3>Leon Windscheid</h3><p>"Sex beginnt im Kopf" – Psychologischer Beziehungs-Angle.</p></div></div>
+        <div class="col"><div class="card" style="border:1px solid var(--p)"><h3>Out-of-the-Box</h3><p><strong>7-Day Journey:</strong> Ein Creator dokumentiert täglich (SFW) seine Academy-Erfahrungen.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="compliance" data-title="Compliance">
+    <div class="wrap">
+      <div class="pill">5. Compliance & Safety</div>
+      <h2>Plattform-Sicherheit (Meta)</h2>
+      <div class="card">
+        <h3>Moderation & Reichweite</h3>
+        <ul style="margin-left:20px;">
+          <li><strong>Safe-Wording:</strong> "Spicy" & "Pleasure" statt restriktiver Begriffe.</li>
+          <li><strong>Visuals:</strong> Fokus auf Gesichter & Text-Overlay (keine Explizitheit).</li>
+          <li><strong>Briefing:</strong> Klare Leitplanken zur Vermeidung von Shadowbans.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="performance" data-title="Performance">
+    <div class="wrap">
+      <div class="pill">6. Performance Evaluation</div>
+      <h2>Erfolg messbar machen</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>KPI</th><th>Fokus</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Trial-Start Rate</strong></td><td>Effizienz des Creatives & CTA.</td></tr>
+            <tr><td><strong>Activation Rate</strong></td><td>Start einer Academy-Lesson binnen 48h.</td></tr>
+            <tr><td><strong>Trial-to-Paid</strong></td><td>Langfristiger ROI nach 7–14 Tagen.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="abschluss" data-title="Abschluss">
+    <div class="wrap">
+      <h2>Zusammenfassung</h2>
+      <div class="row">
+        <div class="col"><div class="card"><h3>Datenfokus</h3><p>Strenge Optimierung auf Trial-to-Paid Conversions.</p></div></div>
+        <div class="col"><div class="card"><h3>Brand Safety</h3><p>Hohe Qualität durch "Education-first" Ansatz.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const secs = Array.from(document.querySelectorAll('section'));
+    const dots = document.getElementById('dots');
+
+    // Dots generieren
+    secs.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+      dots.appendChild(d);
+    });
+
+    const dotEls = Array.from(document.querySelectorAll('.dot'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        const idx = secs.indexOf(e.target);
+        dotEls.forEach(x => x.classList.remove('active'));
+        if (dotEls[idx]) dotEls[idx].classList.add('active');
+      });
+    }, { threshold: 0.3 });
+
+    secs.forEach(s => obs.observe(s));
+
+    // Timer
+    const start = Date.now();
+    const t = document.getElementById('timer');
+    setInterval(() => {
+      const s = Math.floor((Date.now()-start)/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      t.textContent = mm + ':' + ss;
+    }, 1000);
+  </script>
+</body>
+</html>
