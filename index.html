@@ -6,175 +6,206 @@
   <title>CHEEX Case Study | Laís Domiciano</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg:#fff6f1; --card:#ffffff; --ink:#141018; --muted:rgba(20,16,24,.68);
-      --border:rgba(20,16,24,.10); --p:#ff5a7a; --p2:#ff9a72; --pd:#c93653;
-      --ok:#2db47a; --bad:#ff3d5e; --r-lg:22px; --r-md:16px;
-      --shadow:0 14px 40px rgba(20,16,24,.12); --shadow2:0 8px 22px rgba(20,16,24,.10);
+    :root {
+      --bg: #fff6f1;
+      --card: #ffffff;
+      --ink: #141018;
+      --muted: rgba(20, 16, 24, 0.68);
+      --border: rgba(20, 16, 24, 0.10);
+      --p: #ff5a7a;         /* CHEEX Pink */
+      --p2: #ff9a72;        /* Peach */
+      --pd: #c93653;        /* Deep Berry */
+      --ok: #2db47a;
+      --r-lg: 22px;
+      --r-md: 16px;
+      --shadow: 0 14px 40px rgba(20, 16, 24, 0.12);
+      --shadow2: 0 8px 22px rgba(20, 16, 24, 0.10);
     }
-    *{box-sizing:border-box;margin:0;padding:0}
-    body{
-      font-family:Inter,system-ui,-apple-system,sans-serif; color:var(--ink);
-      background: radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%), var(--bg);
-      scroll-behavior:smooth; overflow-x:hidden;
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(1100px 520px at 15% -10%, rgba(255, 90, 122, 0.12), transparent 60%), var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    nav{ position:fixed;top:0;left:0;right:0;z-index:10; background:rgba(255,255,255,.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:16px 20px; }
-    .nav{ max-width:1160px;margin:0 auto; display:flex;align-items:center;justify-content:space-between; }
-    .brand{ font-weight:800; letter-spacing:-.02em; display:flex; align-items:center; gap:10px; }
-    .logo{ width:25px; height:25px; border-radius:7px; background:linear-gradient(135deg,var(--p),var(--p2)); }
-    section{ min-height:100vh; padding:100px 20px 40px; display:flex; justify-content:center; }
-    .wrap{ max-width:1160px; width:100%; }
-    h1{ font-size:clamp(40px,6vw,70px); line-height:1.1; letter-spacing:-.03em; margin-bottom:20px; }
-    h2{ font-size:38px; margin-bottom:20px; letter-spacing:-.02em; color:var(--pd); }
-    .card{ background:var(--card); border:1px solid var(--border); border-radius:var(--r-lg); padding:24px; box-shadow:var(--shadow2); margin-bottom:20px; }
-    .grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:20px; }
-    .pill{ display:inline-block; padding:4px 12px; border-radius:999px; font-size:12px; font-weight:800; text-transform:uppercase; margin-bottom:12px; }
-    .pill.sol{ background:rgba(45,180,122,.1); color:var(--ok); }
-    .pill.kpi{ background:rgba(255,90,122,.1); color:var(--p); }
-    table{ width:100%; border-collapse:collapse; margin-top:15px; }
-    th, td{ text-align:left; padding:12px; border-bottom:1px solid var(--border); font-size:15px; }
-    .ascii{ font-family:monospace; background:#f4f4f4; padding:15px; border-radius:10px; display:block; white-space:pre; overflow-x:auto; margin:10px 0; }
-    .highlight-box{ background:linear-gradient(135deg, rgba(255,90,122,0.1), rgba(255,154,114,0.1)); padding:20px; border-radius:var(--r-md); border:1px solid var(--p); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 15px 25px;
+      display: flex; justify-content: center;
+    }
+
+    .nav-content {
+      width: 100%; max-width: 1160px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .brand { font-weight: 800; display: flex; align-items: center; gap: 10px; font-size: 18px; }
+    .logo { width: 24px; height: 24px; border-radius: 6px; background: linear-gradient(135deg, var(--p), var(--p2)); }
+
+    section {
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 120px 20px 60px;
+      opacity: 0; transform: translateY(20px); transition: all 0.8s ease-out;
+    }
+
+    section.visible { opacity: 1; transform: translateY(0); }
+
+    .wrap { width: 100%; max-width: 1000px; }
+
+    h1 { font-size: clamp(40px, 8vw, 72px); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 20px; }
+    h2 { font-size: 36px; letter-spacing: -0.02em; margin-bottom: 25px; color: var(--pd); }
+    h3 { font-size: 22px; margin-bottom: 10px; }
+
+    .pill {
+      display: inline-block; padding: 5px 15px; border-radius: 999px;
+      font-size: 12px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 15px;
+      background: rgba(255, 90, 122, 0.1); color: var(--p);
+    }
+
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: 30px;
+      box-shadow: var(--shadow2); margin-bottom: 25px;
+      transition: transform 0.3s ease;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { font-size: 13px; text-transform: uppercase; color: var(--muted); }
+
+    .ascii-box {
+      font-family: monospace; background: #f8f9fa; padding: 20px;
+      border-radius: var(--r-md); border: 1px solid var(--border);
+      white-space: pre; overflow-x: auto; margin: 20px 0; font-size: 14px;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, rgba(255,90,122,0.05), rgba(255,154,114,0.05));
+      border: 1px solid var(--p); padding: 25px; border-radius: var(--r-md);
+    }
+
+    .timer { font-size: 14px; font-weight: 700; color: var(--p); background: #fff; padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); }
+
+    ul { list-style: none; }
+    ul li { margin-bottom: 10px; padding-left: 20px; position: relative; }
+    ul li::before { content: "•"; color: var(--p); position: absolute; left: 0; font-weight: bold; }
+
+    footer { padding: 50px; text-align: center; color: var(--muted); font-size: 14px; }
   </style>
 </head>
 <body>
 
   <nav>
-    <div class="nav">
-      <div class="brand"><div class="logo"></div> CHEEX DACH Strategy 2026</div>
-      <div id="timer" style="font-size:14px; font-weight:600;">00:00</div>
+    <div class="nav-content">
+      <div class="brand"><div class="logo"></div> CHEEX DACH Strategy</div>
+      <div id="timer" class="timer">00:00</div>
     </div>
   </nav>
 
-  <section id="intro">
+  <section id="intro" class="visible">
     <div class="wrap">
-      <p class="pill kpi">Case Study</p>
-      <h1>Influencer Marketing: <br><span style="color:var(--p)">Education-First</span> im DACH-Markt</h1>
-      <p>Konzept zur Steigerung der Free-Trial Subscriptions durch authentisches Storytelling und gezielte Creator-Auswahl.</p>
-      <div class="grid" style="margin-top:40px;">
-        <div class="card"><h3>Ziel</h3><p>Maximierung der Free Trials & Conversion zu Paid-Usern.</p></div>
-        <div class="card"><h3>Budget</h3><p>€40.000 / Monat (DACH Fokus).</p></div>
-        <div class="card"><h3>KPI</h3><p>Cost per Trial (CPT) & Trial-to-Paid Rate.</p></div>
+      <span class="pill">Final Presentation</span>
+      <h1>Education-First: <br><span style="color:var(--p)">Wachstum durch Vertrauen</span></h1>
+      <p style="font-size:20px; color:var(--muted); max-width:700px;">Ein strategischer Influencer-Ansatz für den DACH-Markt zur nachhaltigen Steigerung der Free-Trial Subscriptions.</p>
+      
+      <div class="grid" style="margin-top:50px;">
+        <div class="card"><h3>Zielsetzung</h3><p>Maximierung der Free Trials & Conversion zu Paid-Usern durch "Learn-First" Storytelling.</p></div>
+        <div class="card"><h3>DACH-Budget</h3><p>€40.000 / Monat effizient allokiert auf High-Performance & Test-Kanäle.</p></div>
       </div>
     </div>
   </section>
 
   <section id="audience">
     <div class="wrap">
-      <p class="pill sol">1. Audience Definition</p>
-      <h2>Wer ist unsere Zielgruppe?</h2>
+      <span class="pill">1. Target Audience</span>
+      <h2>Wer sind unsere Nutzer:innen?</h2>
       <div class="grid">
         <div class="card">
-          <h3>Die bewusste Entdeckerin (22–35 J.)</h3>
-          <p>Interessiert an Body Positivity, Feminismus und ethischem Konsum. Sucht nach Inhalten, die sich "echt" anfühlen.</p>
+          <h3 style="color:var(--p);">Die bewusste Entdeckerin</h3>
+          <p><strong>Profil:</strong> 22–35 Jahre, Fokus auf Feminismus, Body Positivity & ethischen Konsum.</p>
+          <p><strong>Messaging:</strong> "Sexual Wellness als Teil deiner Self-Care Routine."</p>
         </div>
         <div class="card">
-          <h3>Das neugierige Paar</h3>
-          <p>Sucht nach Wegen, die Kommunikation im Bett zu verbessern und gemeinsam Neues zu entdecken. Fokus auf die Pleasure Academy.</p>
+          <h3 style="color:var(--p);">Das neugierige Paar</h3>
+          <p><strong>Profil:</strong> Suchen Inspiration & bessere Kommunikation für ihre Intimität.</p>
+          <p><strong>Messaging:</strong> "Entdeckt Neues gemeinsam mit den Guides der Pleasure Academy."</p>
         </div>
-      </div>
-      <div class="card" style="margin-top:20px;">
-        <h3>Messaging-Anpassung</h3>
-        <p>Wir verkaufen keinen "Porn", sondern **"Self-Care & Education"**. Das Messaging variiert je nach Kanal:</p>
-        <ul>
-          <li><strong>Bildungs-Fokus:</strong> "Lerne deinen Körper kennen" (Pleasure Academy Hooks).</li>
-          <li><strong>Beziehungs-Fokus:</strong> "Bringt eure Kommunikation auf das nächste Level."</li>
-        </ul>
       </div>
     </div>
   </section>
 
   <section id="research">
     <div class="wrap">
-      <p class="pill sol">2. Research & Identification</p>
-      <h2>Influencer Identifizierung</h2>
+      <span class="pill">2. Influencer Identification</span>
+      <h2>Datengestützter Research-Prozess</h2>
       <div class="card">
-        <h3>Mein Research-Ansatz (Tool-basiert)</h3>
-        <p>Ich nutze Influencer-Tools (wie Storyclash oder HypeAuditor) mit folgendem Fokus:</p>
-        <ul style="margin-left:20px; margin-top:10px;">
-          <li><strong>Audience Credibility:</strong> Check auf Fake-Follower (Score > 70/100).</li>
-          <li><strong>Location:</strong> Mind. 70% Follower in der DACH-Region.</li>
-          <li><strong>Engagement-Rate:</strong> Benchmarking gegen Kategorie-Durchschnitt (> 2%).</li>
+        <h3>Methodik & Tool-Einsatz</h3>
+        <p>Nutzung von Influencer-Analytics-Tools zur Sicherung der Qualität:</p>
+        <ul style="margin-top:15px;">
+          <li><strong>Audience Quality Check:</strong> Filterung auf >75% reale Follower & hohe Engagement-Rates (>2%).</li>
+          <li><strong>Geo-Fencing:</strong> Fokus auf mind. 70% Audience-Anteil in DE, AT, CH.</li>
+          <li><strong>Sentiment-Analyse:</strong> Prüfung der Kommentar-Kultur (Brand Safety).</li>
         </ul>
       </div>
       <div class="grid">
         <div class="card">
-          <h3>Beispiel 1: Keyword-Search</h3>
-          <p>Suche nach "Sex Education", "Mental Health" und "Feminismus" in Bios, um Nischen-Expert:innen zu finden.</p>
+          <h3>Ansatz A: Keyword-Mining</h3>
+          <p>Suche nach Nischen-Expert:innen in den Bereichen "Sex-Positivity", "Beziehungs-Psychologie" und "Female Empowerment".</p>
         </div>
         <div class="card">
-          <h3>Beispiel 2: Lookalike-Audience</h3>
-          <p>Analyse von Followern erfolgreicher CHEEX-Partner, um ähnliche "Hidden Gems" zu identifizieren.</p>
+          <h3>Ansatz B: Lookalike-Scaling</h3>
+          <p>Identifizierung von Profilen mit ähnlicher Audience-Struktur wie bisherige Top-Performer (z.B. Louisa Noack).</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="outreach-logic">
+  <section id="outreach">
     <div class="wrap">
-      <p class="pill sol">3. Budget & Outreach Strategie</p>
-      <h2>Die 40.000 € Kalkulation</h2>
-      <div class="highlight-box">
-        <h3>Outreach Funnel (Basierend auf 40% Reply / 33% Acceptance)</h3>
-        <p>Um das Budget effizient zu nutzen (bei ca. €1.500 pro Kooperation = 26 Bookings):</p>
-        <pre class="ascii">
-1. Initialer Kontakt:   ~ 195 Influencer (Outreach)
-2. Antworten (40%):     ~ 78 Influencer (Verhandlung)
-3. Zusagen (1/3):       ~ 26 Kooperationen (Booking)
-        </pre>
-        <p><strong>Strategie:</strong> Diversifizierter Mix aus 70% Performance-Bringer (Retentions) und 30% neuen Tests.</p>
-      </div>
-      <div class="card" style="margin-top:20px;">
-        <h3>Verhandlungstaktik</h3>
-        <p>Wenn die Fee zu hoch ist: Benchmarking gegen CPM (DACH Richtwert €50). Verhandlung über Paketpreise (3er Sets) oder Nutzungsrechte für Performance-Ads (Whitelisting).</p>
+      <span class="pill">3. Outreach & Budget</span>
+      <h2>Die Mathematik des Erfolgs</h2>
+      <div class="highlight">
+        <h3>Kalkulation für €40.000 Budget</h3>
+        <p>Ziel: Vollständige Budget-Ausschöpfung bei ca. 26 aktiven Kooperationen.</p>
+        <div class="ascii-box">
+1. Initialer Outreach:   ~ 195 Kontakte (Aufbau Pipeline)
+2. Rückmeldungen (40%):  ~ 78 Verhandlungen
+3. Bookings (33%):       ~ 26 Partner (Live-Gänge)
+        </div>
+        <p><strong>Verhandlung:</strong> Nutzung von CPM-Benchmarks (€50 DACH-Schnitt) und Bündelung von Stories/Reels für bessere Paketpreise.</p>
       </div>
     </div>
   </section>
 
   <section id="creatives">
     <div class="wrap">
-      <p class="pill sol">4. Creative Strategy</p>
+      <span class="pill">4. Creative Strategy</span>
       <h2>Individuelle Video-Konzepte</h2>
       <div class="grid">
         <div class="card">
-          <h3>1. Louisa Noack (Education)</h3>
-          <p><strong>Konzept:</strong> "3 Mythen über weibliche Lust". SFW-Ansatz, der direkt auf die Pleasure Academy verweist.</p>
-          <p class="small">CTA: "Lerne die Wahrheit in der Academy - 7 Tage gratis."</p>
+          <h3>Louisa Noack (Trust)</h3>
+          <p><strong>Konzept:</strong> "Was uns niemand über Lust beigebracht hat."</p>
+          <p class="small">Fokus auf Enttabuisierung & direkter Link zur Pleasure Academy.</p>
         </div>
         <div class="card">
-          <h3>2. Leon Windscheid (Psychologie)</h3>
-          <p><strong>Konzept:</strong> "Warum Sex im Kopf beginnt". Psychologischer Deep-Dive zum Thema Intimität.</p>
-          <p class="small">CTA: "Entdeckt CHEEX als Tool für eure Beziehung."</p>
+          <h3>Leon Windscheid (Logic)</h3>
+          <p><strong>Konzept:</strong> "Warum Sex im Kopf beginnt."</p>
+          <p class="small">Psychologischer Deep-Dive: CHEEX als Tool für mentale Intimität.</p>
         </div>
-        <div class="card">
-          <h3>3. Out-of-the-Box: "The 7-Day Journey"</h3>
-          <p>Influencer dokumentiert (SFW) ihre 7 Tage mit der Pleasure Academy: "Was ich in einer Woche über mich gelernt habe". Hochgradig authentisch.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="compliance">
-    <div class="wrap">
-      <p class="pill sol">5. Compliance & Briefing</p>
-      <h2>Sicherheit & Ergebnisse</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Meta Compliance</h3>
-          <p>Vermeidung von Shadowbans durch:</p>
-          <ul>
-            <li>Neutrale Wortwahl (z.B. "Spicy" statt expliziter Begriffe).</li>
-            <li>Keine sexualisierten Thumbnails oder Text-Overlays.</li>
-            <li>Fokus auf Bildung & Lifestyle-Kontext.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Briefing Must-Haves</h3>
-          <ol style="margin-left:20px;">
-            <li>Hook in den ersten 3 Sekunden.</li>
-            <li>Ethisches Framing (Inklusivität & Consent).</li>
-            <li>Klarer CTA: "Klickt den Link für 7 Tage Free Trial".</li>
-          </ol>
+        <div class="card" style="border: 2px solid var(--p);">
+          <h3>Out-of-the-Box Idee</h3>
+          <p><strong>"The 7-Day Journey"</strong>: Ein Creator dokumentiert täglich (SFW) seine Entdeckungen in der Pleasure Academy. Extrem hoher Social Proof.</p>
         </div>
       </div>
     </div>
@@ -182,32 +213,48 @@
 
   <section id="performance">
     <div class="wrap">
-      <p class="pill sol">6. Performance Evaluation</p>
-      <h2>Erfolg messbar machen</h2>
-      <table>
-        <tr><th>Metrik</th><th>Bedeutung</th></tr>
-        <tr><td><strong>Trial-Start Rate</strong></td><td>Wie viele Klicks werden zu Trial-Usern?</td></tr>
-        <tr><td><strong>Activation Rate</strong></td><td>Starten User einen Guide in der Academy?</td></tr>
-        <tr><td><strong>Trial-to-Paid</strong></td><td>Die wichtigste Metrik für den langfristigen ROI.</td></tr>
-      </table>
-      <div class="note" style="margin-top:20px; padding:15px; background:#fff; border-left:4px solid var(--ok);">
-        <strong>Optimierung:</strong> Budgets werden wöchentlich geshiftet – weg von Low-Performern, hin zu Creators mit hoher Trial-to-Paid Conversion (7-Tage-Lag Analyse).
+      <span class="pill">5. Evaluation</span>
+      <h2>KPI-Steuerung & Optimierung</h2>
+      <div class="card">
+        <table>
+          <thead><tr><th>Metrik</th><th>Bedeutung</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Trial-Start Rate</strong></td><td>Effektivität des Hooks & CTA.</td></tr>
+            <tr><td><strong>Activation Rate</strong></td><td>Nutzen der Pleasure Academy im Trial (Retention-Signal).</td></tr>
+            <tr><td><strong>Trial-to-Paid</strong></td><td>Finale ROI-Metrik (bewertet nach 7-14 Tagen).</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="background:var(--ok); color:#fff; border:none;">
+        <h3>90-Tage-Ziel</h3>
+        <p>Etablierung eines stabilen DACH-Creator-Pools, der monatlich mind. 1.500+ neue Trials bei einem stabilen CPT generiert.</p>
       </div>
     </div>
   </section>
 
-  <footer style="text-align:center; padding:40px; color:var(--muted);">
-    CHEEX Presentation Case Study · 2026
+  <footer>
+    CHEEX Influencer Strategy Presentation · Laís Domiciano · 2026
   </footer>
 
   <script>
-    const start = Date.now();
-    const t = document.getElementById('timer');
+    // Intersection Observer für Scroll-Animationen
+    const sections = document.querySelectorAll('section');
+    const options = { threshold: 0.2 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, options);
+    sections.forEach(section => observer.observe(section));
+
+    // Timer Logik
+    const startTime = Date.now();
+    const timerDisplay = document.getElementById('timer');
     setInterval(() => {
-      const s = Math.floor((Date.now()-start)/1000);
-      const mm = String(Math.floor(s/60)).padStart(2,'0');
-      const ss = String(s%60).padStart(2,'0');
-      t.textContent = mm + ':' + ss;
+      const elapsed = Math.floor((Date.now() - startTime) / 1000);
+      const mins = String(Math.floor(elapsed / 60)).padStart(2, '0');
+      const secs = String(elapsed % 60).padStart(2, '0');
+      timerDisplay.textContent = `${mins}:${secs}`;
     }, 1000);
   </script>
 </body>
