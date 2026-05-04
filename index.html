@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHEEX Case | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff6f1;
+      --card:#ffffff;
+      --ink:#141018;
+      --muted:rgba(20,16,24,.68);
+      --border:rgba(20,16,24,.10);
+      --p:#ff5a7a;
+      --p2:#ff9a72;
+      --pd:#c93653;
+      --ok:#2db47a;
+      --bad:#ff3d5e;
+      --r-lg:22px;
+      --r-md:16px;
+      --shadow:0 14px 40px rgba(20,16,24,.12);
+      --shadow2:0 8px 22px rgba(20,16,24,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%),
+        radial-gradient(1000px 520px at 95% 10%, rgba(255,154,114,.16), transparent 55%),
+        var(--bg);
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:10;
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:16px 20px;
+    }
+    .nav{
+      max-width:1160px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+    .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
+    .dots{display:flex;gap:10px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
+    .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
+    .timer{font-size:13px;color:var(--muted);white-space:nowrap}
+ 
+    section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:78px 20px 42px;opacity:0;transform:translateY(22px);transition:.7s}
+    section.visible{opacity:1;transform:translateY(0)}
+    .wrap{max-width:1160px;width:100%}
+ 
+    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px}
+    h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
+    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .small{font-size:14px;line-height:1.55;color:var(--muted)}
+ 
+    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+    .col{flex:1 1 320px}
+    .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(255,90,122,.28)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
+    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
+    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
+ 
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+    .metric{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+    .metric:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--p),var(--p2))}
+    .mv{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+    .ml{font-size:13px;color:var(--muted)}
+ 
+    table{width:100%;border-collapse:collapse;margin-top:10px;font-size:15px}
+    th,td{padding:12px 10px;border-bottom:1px solid rgba(20,16,24,.08);vertical-align:top}
+    th{font-size:13px;color:rgba(20,16,24,.80);text-transform:uppercase;letter-spacing:.06em}
+ 
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(20,16,24,.12);background:rgba(255,255,255,.92);color:var(--ink);font-weight:800;text-decoration:none;box-shadow:0 12px 24px rgba(20,16,24,.08);transition:.18s}
+    .btn:hover{transform:translateY(-2px);border-color:rgba(255,90,122,.35)}
+    .btn.primary{background:linear-gradient(135deg,var(--p),var(--p2));border-color:transparent;color:#fff}
+ 
+    footer{padding:26px 20px 44px;text-align:center;color:var(--muted);font-size:13px}
+    @media (max-width:520px){h2{font-size:34px}section{padding:74px 16px 38px}}
+ 
+    .muted{font-size:14px;line-height:1.55;color:var(--muted);max-width:82ch}
+    .ascii{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:13px;line-height:1.55;color:rgba(20,16,24,.86);
+      background:rgba(255,255,255,.78);
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      padding:14px;
+      overflow:auto;
+      white-space:pre;
+      box-shadow:var(--shadow2);
+      margin-top:12px;
+    }
+    .note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:var(--r-md);
+      background:rgba(255,90,122,.08);
+      border:1px solid rgba(255,90,122,.18);
+      color:rgba(20,16,24,.82);
+      font-size:14px;
+      line-height:1.55;
+    }
+    .steps{margin:12px 0 0 18px;color:rgba(20,16,24,.86);font-size:15px;line-height:1.65}
+    .steps li{margin:6px 0}
+    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px}
+    .box{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2)}
+    .pill.neutral{background:rgba(20,16,24,.06);color:rgba(20,16,24,.78)}
+ 
+    .email-box{
+      max-width:720px;
+      margin:12px auto 0;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      padding:16px 18px;
+      box-shadow:var(--shadow2);
+    }
+    .email-pre{
+      margin:0;
+      white-space:pre-wrap;
+      word-break:break-word;
+      overflow-wrap:anywhere;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      font-size:14px;
+      line-height:1.65;
+      color:rgba(20,16,24,.90);
+    }
+ 
+    .imgrow{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+    .imgbox{
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      overflow:hidden;
+      background:rgba(255,255,255,.75);
+      box-shadow:var(--shadow2);
+      position:relative;
+      min-height:200px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .imgbox.snap{min-height:320px}
+    .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+    .imgcap{
+      position:absolute;left:10px;top:10px;
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      padding:6px 10px;border-radius:999px;
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(20,16,24,.10);
+      color:rgba(20,16,24,.78);
+    }
+ 
+    .concept-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      margin-top:14px;
+      padding:8px 14px;
+      border-radius:var(--r-md);
+      background:linear-gradient(135deg,rgba(255,90,122,.10),rgba(255,154,114,.10));
+      border:1px solid rgba(255,90,122,.20);
+      font-size:13px;
+      line-height:1.5;
+      color:rgba(20,16,24,.88);
+    }
+    .concept-badge strong{color:var(--pd)}
+  </style>
+</head>
+<body>
+ 
+  <nav>
+    <div class="nav">
+      <div class="brand"><div class="logo" aria-hidden="true"></div>CHEEX Case · Influencer Marketing</div>
+      <div class="dots" id="dots"></div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </nav>
+ 
+  <!-- ── 01 INTRO ──────────────────────────────────────────── -->
+  <section class="visible" data-title="Intro">
+    <div class="wrap">
+      <h1>Ein Creator-Ansatz für <span class="grad">sichere, inklusive Lust</span> und echte Learnings</h1>
+ 
+      <div class="cta">
+        <a class="btn primary" href="#audience">1. Zielgruppe</a>
+        <a class="btn" href="#research">2. Creator & Research</a>
+        <a class="btn" href="#outreach">3. Outreach & Budget</a>
+        <a class="btn" href="#concept">4. Konzept</a>
+        <a class="btn" href="#compliance">5. Compliance</a>
+        <a class="btn" href="#briefing">6. Briefing</a>
+        <a class="btn" href="#performance">7. Performance</a>
+        <a class="btn" href="#abschluss">Abschluss</a>
+      </div>
+ 
+      <div class="grid" style="margin-top:18px">
+        <div class="metric"><div class="ml">Ziel</div><div class="mv">Free Trials und Conversions</div></div>
+        <div class="metric"><div class="ml">Kanäle</div><div class="mv">Instagram, YouTube und TikTok</div></div>
+        <div class="metric"><div class="ml">Arbeitsmodus</div><div class="mv">Testen → Lernen → Skalieren</div></div>
+        <div class="metric"><div class="ml">Leitplanken</div><div class="mv">Consent · Sicherheit · Fit</div></div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 02 ZIELGRUPPE (Q1) ────────────────────────────────── -->
+  <section id="audience" data-title="1. Zielgruppe">
+    <div class="wrap">
+      <h2>1. Audience Definition</h2>
+      <p class="small">Zielgruppendefinition für den DACH-Markt. Wir stabilisieren unseren Kernmarkt und testen gleichzeitig neue Segmente.</p>
+ 
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Kernzielgruppe (Etabliert)</div>
+            <h3>Frauen, 20–35 Jahre</h3>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Interessen:</strong> Body Positivity, Feminismus, Wellness, sexuelle Aufklärung.</li>
+              <li><strong>Messaging:</strong> "Entdecke dich selbst ohne Scham." Pleasure Academy als vertrauensvoller Einstieg in ethischen Content.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Test-Segmente (Wachstumschance)</div>
+            <h3>Männer & Ältere Zielgruppe (35+)</h3>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Warum:</strong> Daten belegen hohe Trial-to-Paid Conversion-Raten bei diesen Gruppen in Bildungsthemen.</li>
+              <li><strong>Messaging:</strong> "Intimität ist Kopfsache." Fokus auf Psychologie und Beziehungsqualität.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 03 CREATOR RESEARCH (Q2) ──────────────────────────── -->
+  <section id="research" data-title="2. Creator & Research">
+    <div class="wrap">
+      <h2>2. Influencer Identification & Research</h2>
+      <p class="small">Auswahl von drei passenden Instagram-Creatorn im DACH-Raum und Darstellung der Research-Methodik.</p>
+      
+      <!-- Research Approach Card -->
+      <div class="card" style="margin-top:16px; margin-bottom:16px;">
+        <div class="pill solution">Tooling & Process</div>
+        <h3>Wie ich das Influencer Tool nutze</h3>
+        <p class="small">Um sicherzustellen, dass die Creator die ethischen und edukativen Werte von CHEEX teilen, kombiniere ich demografische Filter mit gezielten Suchstrategien.</p>
+        <ul class="steps" style="margin-left:18px">
+          <li><strong>Kriterien & Filter:</strong> DACH-Markt (Geo-Filter), Altersgruppe 20–35 (Demographics), Engagement-Rate >2%, und zwingend ein Brand-Safety-Check auf gebannte Keywords.</li>
+          <li><strong>Beispiel-Approach 1 (Lookalikes):</strong> Nutzung der "Audience Overlap"-Funktion, um Profile zu finden, die ähnliche Followerstrukturen aufweisen wie Creator, die bereits erfolgreich für CHEEX geworben haben.</li>
+          <li><strong>Beispiel-Approach 2 (Keyword Discovery):</strong> Gezielte Bio-Keyword-Suche nach Begriffen wie "Psychologie", "Feminismus" oder "Aufklärung" gepaart mit Filter-Tags für "Health/Wellness", um Profile abseits des klassischen Erotik-Framings zu entdecken.</li>
+          <li><strong>Fallback-Taktik:</strong> Liefert das Tool nicht genug Ergebnisse, scoute ich manuell über Podcast-Charts (z. B. "Über Sex reden") oder analysiere das Empfehlungsnetzwerk ("Suggested Accounts") bereits verifizierter Profil-Matches.</li>
+        </ul>
+      </div>
+
+      <!-- Creator Cards -->
+      <div class="row">
+        <!-- Louisa Noack -->
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Mid-Tier</div>
+            <h3>Louisa Noack</h3>
+            <p class="small">Rolle: Aufklärung und Vertrauen. Perfekt für Trial Conversions.</p>
+            <div class="imgrow">
+              <div class="imgbox snap">
+                <div class="imgcap">Instagram</div>
+                <img src="Louisa_insta.jpeg" alt="Louisa Noack Instagram" onerror="this.closest('.imgbox').innerHTML='<div style=\'width:100%;height:100%;min-height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:rgba(20,16,24,.45);font-size:13px;font-weight:700;\'>📸 Louisa Noack</div>';">
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- Leon Windscheid -->
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Hero Reach</div>
+            <h3>Leon Windscheid</h3>
+            <p class="small">Rolle: Mainstream Credibility. Stark für Awareness und "Sex ist Kopfsache".</p>
+            <div class="imgrow">
+              <div class="imgbox snap">
+                <div class="imgcap">Instagram</div>
+                <img src="Leon_insta.jpeg" alt="Leon Windscheid Instagram" onerror="this.closest('.imgbox').innerHTML='<div style=\'width:100%;height:100%;min-height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:rgba(20,16,24,.45);font-size:13px;font-weight:700;\'>📸 Leon Windscheid</div>';">
+              </div>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- feminismus24 -->
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Micro / Community</div>
+            <h3>feminismus24</h3>
+            <p class="small">Rolle: Haltung und Community. Sehr gut für Saves und Weiterleitungen.</p>
+            <div class="imgrow">
+              <div class="imgbox snap">
+                <div class="imgcap">Instagram</div>
+                <img src="Feminismus_insta.jpeg" alt="feminismus24 Instagram" onerror="this.closest('.imgbox').innerHTML='<div style=\'width:100%;height:100%;min-height:220px;display:flex;align-items:center;justify-content:center;flex-direction:column;color:rgba(20,16,24,.45);font-size:13px;font-weight:700;\'>📸 Feminismus24</div>';">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 04 OUTREACH & BUDGET (Q3) ────────────────────────── -->
+  <section id="outreach" data-title="3. Outreach & Budget">
+    <div class="wrap">
+      <h2>3. Budget Allocation & Outreach Strategy</h2>
+      <p class="small">Verwaltung des 40.000 € Budgets, Sicherstellung der Ziel-Konversionsraten beim Booking und Strategie für Erstansprache und Verhandlung.</p>
+ 
+      <!-- Part 1: Scheduling Strategy -->
+      <div class="card" style="margin-top:16px">
+        <div class="pill kpi">Part 1: Outreach & Scheduling Strategy</div>
+        <h3>Kontaktvolumen & Budget-Allokation</h3>
+        <p class="small">Gegeben: Budget €40.000 · Reply-Rate ≥ 40 % · Acceptance-Rate 1/3. Um das Budget zu splitten und das Risiko zu minimieren, baue ich drei Tiers auf.</p>
+        <table>
+          <thead><tr><th>Tier</th><th>Ø Deal</th><th>Budget-Anteil</th><th>Buchungen nötig</th><th>Replies nötig (×3)</th><th>Kontakte nötig (÷0,4)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Hero</strong> (Leon)</td><td>€8.000–12.000</td><td>~€10.000 (25 %)</td><td>1</td><td>3</td><td>~8</td></tr>
+            <tr><td><strong>Mid-Tier</strong> (Louisa)</td><td>€3.000–6.000</td><td>~€15.000 (37 %)</td><td>3</td><td>9</td><td>~23</td></tr>
+            <tr><td><strong>Micro</strong> (Tests)</td><td>€1.000–2.500</td><td>~€10.000 (25 %)</td><td>5</td><td>15</td><td>~38</td></tr>
+          </tbody>
+        </table>
+        <pre class="ascii">Gesamt zu kontaktieren: ~70 Creator  (8 Hero + 23 Mid + 38 Micro + Puffer)
+Gesamt gebucht (Ziel):    9 Creator  (1 Hero + 3 Mid + 5 Micro)
+Budget eingesetzt:       ~€35.000  + €5.000 Reserve = €40.000 ✓</pre>
+      </div>
+
+      <div class="row">
+        <!-- Part 2: Outreach Strategy Formulation -->
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Part 2: Outreach Formulation</div>
+            <h3>Erste Kontaktaufnahme & Hürden</h3>
+            <p class="small"><strong>Recruitment Challenge:</strong> Viele Creator haben Angst vor Reputationsschäden durch Adult Content. <strong>Lösung:</strong> Proaktives Senden einer "Education-Pressemappe" im Vorfeld und Fokus auf die "Pleasure Academy" im Erstkontakt.</p>
+            
+            <div class="email-box" style="margin-top:10px;"><pre class="email-pre">Hi Louisa,
+ 
+ich verfolge deinen Content schon länger – besonders deine Posts zum Enttabuisieren von Sexualität. Deine ruhige Art passt extrem gut zu den Werten von CHEEX.
+ 
+Bei uns geht es nicht um Provokation, sondern um Wissen und Sicherheit – u.a. über unsere "Pleasure Academy" (expertengeführte Tutorials & Artikel).
+ 
+Wir planen eine "Education-first" Kampagne, bei der es um eine 7-tägige kostenlose Trial-Phase geht. Viel inhaltliche Freiheit, klare Leitplanken und Fokus auf Vertrauen. 
+
+Hättest du Lust, dir das einmal unverbindlich anzuschauen?
+ 
+Liebe Grüße
+Laís</pre></div>
+          </div>
+        </div>
+ 
+        <!-- Part 3: Negotiation Tactics -->
+        <div class="col">
+          <div class="card">
+            <div class="pill neutral">Part 3: Negotiation Tactics</div>
+            <h3>Preisbewertung & Verhandlungslogik</h3>
+            <p class="small">Ich nutze als Startpunkt einen <strong>Ø CPM (TKP) von 50 €</strong> im DACH-Markt. Wenn ein Creator mehr verlangt als geplant, verhandle ich anhand folgender Schritte:</p>
+            <ul class="steps" style="margin-left:18px;margin-top:10px">
+              <li><strong>CPM-Check:</strong> Follower × Ø Engagement-Rate × 50 € = Richtwert. Liegt das Angebot weit darüber, wird dies transparent besprochen.</li>
+              <li><strong>Wert-Check:</strong> Bietet der Creator Unique Reach in einem neuen Segment (z.B. Psychologie-Fokus)? Dann kann ein Aufpreis als Testbudget aus der Reserve gebucht werden.</li>
+              <li><strong>Gegenvorschlag ohne Preisdruck:</strong> Statt den Preis hart zu drücken, passe ich Deliverables an (z.B. weniger Storys) oder biete direkt einen Langzeit-Deal an, was oft den Einzelpreis senkt.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 05 KONZEPT (Q4) ────────────────────────────────────── -->
+  <section id="concept" data-title="4. Konzept">
+    <div class="wrap">
+      <h2>4. Creative Strategy Development</h2>
+      <p class="small">Kampagnenidee: „Neugier ohne Scham". Wir verkaufen keinen „Porno-Moment", sondern einen sicheren Zugang zu Lust und Education.</p>
+ 
+      <div class="row">
+        <!-- Concepts for individual creators -->
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Individuelle Konzepte</div>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Louisa Noack:</strong> <em>„Ich habe aufgehört, mich zu schämen."</em> Ein Reel über den eigenen Lernprozess. Highlight: Die Pleasure Academy von CHEEX hilft dabei. <strong>CTA:</strong> "Teste CHEEX 7 Tage kostenlos und finde deinen eigenen Rhythmus."</li>
+              <li><strong>Leon Windscheid:</strong> <em>„Warum wir über Lust so selten reden."</em> Psychologische Perspektive. Highlight: Ethischer Content als Lösung für bessere Beziehungsqualität. <strong>CTA:</strong> "Melde dich über meinen Link an und nutze 7 Tage lang kostenlos die Academy und ethische Filme."</li>
+              <li><strong>feminismus24:</strong> <em>„5 Mythen über weibliche Lust."</em> Carousel-Format. Highlight: CHEEX bricht Mythen mit echten Audios und Filmen. <strong>CTA:</strong> "Lern dich neu kennen – 7 Tage Free Trial in der Bio."</li>
+            </ul>
+          </div>
+        </div>
+        
+        <!-- Outside the box -->
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Outside-the-box Idee</div>
+            <h3>Cross-Creator Collab: Leon × Louisa</h3>
+            <p class="small">Ein gemeinsames Reel (Collab-Feature auf IG) zwischen Leon (Psychologie/Männlich) und Louisa (Aufklärung/Weiblich). Zwei Perspektiven, ein Thema: „Warum Lust ein gemeinsamer Lernprozess ist."</p>
+            <p class="small" style="margin-top:8px"><strong>Warum es konvertiert:</strong> Doppelte Reichweite in zwei unterschiedlichen Audience-Pools. Es baut extrem hohes Vertrauen auf und motiviert Paare, den 7-Tage-Trial gemeinsam zu starten. Geringe Zusatzkosten, massiver Trust-Uplift.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 06 COMPLIANCE (Q5) ─────────────────────────────────── -->
+  <section id="compliance" data-title="5. Compliance">
+    <div class="wrap">
+      <h2>5. Content Moderation & Compliance</h2>
+      <p class="small">Ziel: Maximale Reichweite bei gleichzeitiger Einhaltung der Meta Community Guidelines (Vermeidung von Shadowbans und Takedowns).</p>
+ 
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Content-Leitplanken</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Kein Zeigen oder explizites Beschreiben sexueller Handlungen im Creator-Video.</li>
+              <li>Fokus auf Bildung, Psychologie, Reflexion und persönliche Erfahrungsberichte.</li>
+              <li>Visuell: Creators Face-to-Camera, Text-Overlays, neutrale Alltagssituationen.</li>
+            </ul>
+          </div>
+        </div>
+ 
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Präventive Maßnahmen</div>
+            <ul class="steps" style="margin-left:18px">
+              <li>Synonym-Wörterbuch: Vermeidung von Trigger-Begriffen, die Meta algorithmisch abstraft (Education-Framing statt Adult-Framing).</li>
+              <li>Vorabprüfung: 1 schnelle Check-Schleife (Text/Slides) vor dem finalen Posting.</li>
+              <li>Soft-CTA: "Neugierig geworden?" statt drängender, künstlicher Sales-Phrasen.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 07 BRIEFING (Q6) ───────────────────────────────────── -->
+  <section id="briefing" data-title="6. Briefing">
+    <div class="wrap">
+      <h2>6. Influencer Briefing & Campaign Requirements</h2>
+      <p class="small">Die drei elementaren Bestandteile des Creator-Briefings zur Maximierung von Conversions (Free Trials).</p>
+      
+      <div class="card" style="margin-top:16px">
+        <div class="row">
+          <div class="col">
+            <div class="pill kpi">Element 1: Hook & Storytelling</div>
+            <p class="small"><strong>Requirement:</strong> Visuelle/Textliche Hook in den ersten 2-3 Sekunden. Positionierung von CHEEX als ethischer, inklusiver "Safe Space" für Education und Pleasure. Keine sexualisierten Thumbnails.</p>
+          </div>
+          <div class="col">
+            <div class="pill kpi">Element 2: Der Value Drop</div>
+            <p class="small"><strong>Requirement:</strong> Klare Erwähnung des Plattform-Werts. Nicht nur "Filme schauen", sondern explizit "Pleasure Academy" (Experten, Tutorials, Audio) als vertrauensbildendes Element benennen.</p>
+          </div>
+          <div class="col">
+            <div class="pill kpi">Element 3: Clear CTA & Tracking</div>
+            <p class="small"><strong>Requirement:</strong> Mündliche und visuelle Aufforderung: „Nutze meinen Code [CREATOR] für 7 Tage kostenloses Testen." Zwingende Einbindung des generierten UTM-Links im Link-Sticker der Story und Bio.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 08 PERFORMANCE (Q7) ────────────────────────────────── -->
+  <section id="performance" data-title="7. Performance">
+    <div class="wrap">
+      <h2>7. Performance Evaluation Plan</h2>
+      <p class="small">Neben der primären KPI (generierte Free Trials) analysieren wir den gesamten Funnel, um die Kampagne basierend auf Daten kontinuierlich zu optimieren.</p>
+ 
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Der Creator Funnel</div>
+            <pre class="ascii">TRAFFIC (Impressions)
+  | CTR (Klickrate)
+  v
+LANDINGPAGE (Traffic via UTM)
+  | Trial-Start Rate
+  v
+FREE TRIAL (Primäre KPI)
+  | Activation Rate (Start 1. Guide)
+  v
+PAID ABO (Trial → Paid Conv.)
+  | Retention (ab Tag 30+)
+  v
+LTV (Customer Lifetime Value)</pre>
+          </div>
+        </div>
+ 
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Qualitative & Sekundäre KPIs</div>
+            <ul class="steps" style="margin-left:18px">
+              <li><strong>Trial → Paid Conversion (Tag 7–14):</strong> Der wichtigste Messwert nach dem Trial-Start. Ein Creator mit weniger Trials, aber höherer Paid-Conversion, ist langfristig wertvoller.</li>
+              <li><strong>Cost per Trial (CPT) / CAC:</strong> ROI-Bewertung pro Influencer.</li>
+              <li><strong>Saves & Shares:</strong> Zeigt an, dass der Education-Content echten Mehrwert geboten hat (wichtig für den Algorithmus).</li>
+              <li><strong>Activation im Trial:</strong> Starten Nutzer von Creator X primär die Pleasure Academy oder Adult Content? (Beeinflusst künftige Briefings).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="margin-top:16px">
+        <div class="pill solution">Datengestützte Optimierung</div>
+        <p class="small">Budget-Shifts finden nach Tag 14 statt: Creator mit hohem Traffic aber schwacher "Trial → Paid"-Conversion werden nicht verlängert. Top-Performer (hoher Trust, gute Paid-Rate) erhalten langfristige Verträge und Whitelisting/Ads-Budget für ihre erfolgreichsten Creatives.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ── 09 ABSCHLUSS ───────────────────────────────────────── -->
+  <section id="abschluss" data-title="Abschluss">
+    <div class="wrap">
+      <h2>Abschluss</h2>
+      <div class="row">
+        <div class="col"><div class="card"><div class="pill solution">Performance</div><h3>Ich skaliere, was funktioniert</h3><p class="small">Tracking, regelmäßiges Reporting und klare Stop-Regeln. Weniger Chaos, mehr Lernen.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Stil und Safety</div><h3>Ich schütze die Marke</h3><p class="small">Selbstbewusstes, modernes, consent-sicheres Storytelling. Strenger Creator Fit.</p></div></div>
+        <div class="col"><div class="card"><div class="pill solution">Ownership</div><h3>Ich mache End to End</h3><p class="small">Research, Verhandlung, Briefing, Launch, Analyse. Ich übernehme Verantwortung für Ergebnisse.</p></div></div>
+      </div>
+      <div class="cta">
+        <a class="btn primary" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Zurück nach oben</a>
+      </div>
+    </div>
+  </section>
+ 
+  <footer>Danke ♡</footer>
+ 
+<script>
+    const secs = Array.from(document.querySelectorAll('section'));
+    const dots = document.getElementById('dots');
+ 
+    secs.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = s.dataset.title || ('Abschnitt ' + (i+1));
+      d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+      dots.appendChild(d);
+    });
+ 
+    const dotEls = Array.from(document.querySelectorAll('.dot'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        const idx = secs.indexOf(e.target);
+        dotEls.forEach(x => x.classList.remove('active'));
+        if (dotEls[idx]) dotEls[idx].classList.add('active');
+      });
+    }, { threshold: 0.25 });
+ 
+    secs.forEach(s => obs.observe(s));
+ 
+    const start = Date.now();
+    const t = document.getElementById('timer');
+    setInterval(() => {
+      const s = Math.floor((Date.now()-start)/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      t.textContent = mm + ':' + ss;
+    }, 250);
+  </script>
+</body>
+</html>
