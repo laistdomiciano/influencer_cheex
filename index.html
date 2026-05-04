@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CHEEX Case | Laís Domiciano</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#fff6f1;
+      --card:#ffffff;
+      --ink:#141018;
+      --muted:rgba(20,16,24,.68);
+      --border:rgba(20,16,24,.10);
+      --p:#ff5a7a;
+      --p2:#ff9a72;
+      --pd:#c93653;
+      --ok:#2db47a;
+      --bad:#ff3d5e;
+      --r-lg:22px;
+      --r-md:16px;
+      --shadow:0 14px 40px rgba(20,16,24,.12);
+      --shadow2:0 8px 22px rgba(20,16,24,.10);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 520px at 15% -10%, rgba(255,90,122,.12), transparent 60%),
+        radial-gradient(1000px 520px at 95% 10%, rgba(255,154,114,.16), transparent 55%),
+        var(--bg);
+      scroll-behavior:smooth;
+      overflow-x:hidden;
+    }
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:10;
+      background:rgba(255,255,255,.82);
+      backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);
+      padding:16px 20px;
+    }
+    .nav{
+      max-width:1160px;margin:0 auto;
+      display:flex;align-items:center;justify-content:space-between;gap:14px;
+    }
+    .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em}
+    .logo{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 16px 30px rgba(255,90,122,.25)}
+    .dots{display:flex;gap:10px;align-items:center}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(20,16,24,.20);cursor:pointer;transition:.2s}
+    .dot.active{background:var(--p);transform:scale(1.6);box-shadow:0 12px 24px rgba(255,90,122,.22)}
+    .timer{font-size:13px;color:var(--muted);white-space:nowrap}
+ 
+    section{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:78px 20px 42px;opacity:0;transform:translateY(22px);transition:.7s}
+    section.visible{opacity:1;transform:translateY(0)}
+    .wrap{max-width:1160px;width:100%}
+ 
+    h1{font-size:clamp(42px,6.8vw,76px);line-height:1.05;letter-spacing:-.03em;margin-bottom:14px}
+    h2{font-size:42px;letter-spacing:-.03em;margin-bottom:12px}
+    h3{font-size:26px;letter-spacing:-.02em;margin-bottom:8px}
+    p{font-size:18px;line-height:1.65;color:rgba(20,16,24,.86);max-width:82ch}
+    .grad{background:linear-gradient(135deg,var(--p),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .small{font-size:14px;line-height:1.55;color:var(--muted)}
+ 
+    .row{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px}
+    .col{flex:1 1 320px}
+    .card{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;box-shadow:var(--shadow2);transition:.2s}
+    .card:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:rgba(255,90,122,.28)}
+    .pill{display:inline-flex;gap:8px;align-items:center;padding:6px 12px;border-radius:999px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+    .pill.problem{background:rgba(255,61,94,.12);color:var(--bad)}
+    .pill.solution{background:rgba(255,90,122,.12);color:var(--pd)}
+    .pill.kpi{background:rgba(45,180,122,.12);color:var(--ok)}
+ 
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+    .metric{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2);position:relative;overflow:hidden}
+    .metric:before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(135deg,var(--p),var(--p2))}
+    .mv{font-size:26px;font-weight:800;letter-spacing:-.02em;margin-top:6px}
+    .ml{font-size:13px;color:var(--muted)}
+ 
+    .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .btn{display:inline-flex;align-items:center;gap:10px;padding:12px 16px;border-radius:999px;border:1px solid rgba(20,16,24,.12);background:rgba(255,255,255,.92);color:var(--ink);font-weight:800;text-decoration:none;box-shadow:0 12px 24px rgba(20,16,24,.08);transition:.18s}
+    .btn:hover{transform:translateY(-2px);border-color:rgba(255,90,122,.35)}
+    .btn.primary{background:linear-gradient(135deg,var(--p),var(--p2));border-color:transparent;color:#fff}
+ 
+    .steps{margin:12px 0 0 18px;color:rgba(20,16,24,.86);font-size:14px;line-height:1.65}
+    .steps li{margin:6px 0}
+    .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:12px}
+    .box{background:rgba(255,255,255,.92);border:1px solid var(--border);border-radius:var(--r-md);padding:16px;box-shadow:var(--shadow2)}
+    .pill.neutral{background:rgba(20,16,24,.06);color:rgba(20,16,24,.78)}
+
+    .ph{border:1px dashed rgba(20,16,24,.26);border-radius:var(--r-md);background:rgba(255,255,255,.55);display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(20,16,24,.55);font-weight:700;padding:12px}
+    .imgrow{display:grid;grid-template-columns:1fr;gap:12px;margin-top:10px}
+    .imgbox{
+      border:1px solid rgba(20,16,24,.10);
+      border-radius:var(--r-md);
+      overflow:hidden;
+      background:rgba(255,255,255,.75);
+      box-shadow:var(--shadow2);
+      position:relative;
+      min-height:160px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .imgbox img{width:100%;height:100%;object-fit:cover;display:block}
+    .imgcap{
+      position:absolute;left:10px;top:10px;
+      font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+      padding:6px 10px;border-radius:999px;
+      background:rgba(255,255,255,.88);
+      border:1px solid rgba(20,16,24,.10);
+      color:rgba(20,16,24,.78);
+    }
+  </style>
+</head>
+<body>
+ 
+  <nav>
+    <div class="nav">
+      <div class="brand"><div class="logo" aria-hidden="true"></div>CHEEX Influencer Strategy | DACH</div>
+      <div class="dots" id="dots"></div>
+      <div class="timer" id="timer">00:00</div>
+    </div>
+  </nav>
+ 
+  <!-- ── 01 INTRO ──────────────────────────────────────────── -->
+  <section class="visible" data-title="Intro">
+    <div class="wrap">
+      <h1>Education First: <span class="grad">Sicher wachsen</span></h1>
+ 
+      <div class="cta">
+        <a class="btn primary" href="#audience">1. Audience</a>
+        <a class="btn" href="#research">2. Research</a>
+        <a class="btn" href="#creators">3. Creators</a>
+        <a class="btn" href="#outreach">4. Outreach & Budget</a>
+        <a class="btn" href="#briefing">5. Briefing & Compliance</a>
+        <a class="btn" href="#kpis">6. KPIs</a>
+      </div>
+ 
+      <div class="grid" style="margin-top:18px">
+        <div class="metric"><div class="ml">Ziel</div><div class="mv">Free Trials → Paid Conversions</div></div>
+        <div class="metric"><div class="ml">Markt</div><div class="mv">DACH (DE, AT, CH)</div></div>
+        <div class="metric"><div class="ml">Budget</div><div class="mv">€40.000 (Testing & Scale)</div></div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 02 ZIELGRUPPE ────────────────────────────────── -->
+  <section id="audience" data-title="Audience">
+    <div class="wrap">
+      <h2>1. Audience Definition</h2>
+      <p class="small">Fokus auf unsere etablierte Basis + Erschließung neuer Potenziale.</p>
+ 
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Kern-Zielgruppe</div>
+            <h3>Frauen, 20–35 Jahre</h3>
+            <ul class="steps">
+              <li><strong>Interessen:</strong> Body Positivity, Aufklärung, Wellness.</li>
+              <li><strong>Messaging:</strong> "Neugier ohne Scham. CHEEX ist dein sicherer Raum."</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Test-Zielgruppe</div>
+            <h3>Männer & Ältere (35+)</h3>
+            <ul class="steps">
+              <li><strong>Warum:</strong> Daten zeigen hohes Potenzial & gute Conversions.</li>
+              <li><strong>Messaging:</strong> "Intimität ist Kopfsache" (Psychologie-Fokus, kein explizites Framing).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── 03 RESEARCH ─────────────────────────────────────────── -->
+  <section id="research" data-title="Research">
+    <div class="wrap">
+      <h2>2. Influencer Identifikation & Research</h2>
+      <div class="card">
+        <div class="pill neutral">Prozess & Tool (z.B. Modash)</div>
+        <div class="grid2">
+          <div class="box">
+            <strong>Tool-Ansätze</strong>
+            <ul class="steps">
+              <li><strong>Kriterien:</strong> >70% DACH, >3% Engagement, Brand Fit.</li>
+              <li><strong>Suche 1:</strong> Keywords (Aufklärung, Sexpositivität).</li>
+              <li><strong>Suche 2:</strong> Lookalike-Audience zu unseren Top-Performern.</li>
+            </ul>
+          </div>
+          <div class="box">
+            <strong>Taktik ohne Tool (Fallback)</strong>
+            <ul class="steps">
+              <li>Manuelle Suche in Podcast-Charts (Beziehungen/Psychologie).</li>
+              <li>"Ähnliche Accounts" via Instagram-Explorer.</li>
+              <li>Follower-Listen bestehender CHEEX-Partner scannen.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 04 CREATORS ─────────────────────────────────────────── -->
+  <section id="creators" data-title="Creators">
+    <div class="wrap">
+      <h2>3. Creative Strategy (3 Creators)</h2>
+      <div class="row">
+        <!-- Louisa Noack -->
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Core Fit: Louisa Noack</div>
+            <ul class="steps">
+              <li><strong>Fit:</strong> Sehr authentisch für Frauen 20-35.</li>
+              <li><strong>Konzept:</strong> "Was uns guttut". Sie teilt persönliche Learnings.</li>
+              <li><strong>CTA:</strong> Pleasure Academy testen (7-Tage Trial).</li>
+            </ul>
+            <div class="imgrow">
+              <div class="imgbox"><img src="Louisa_photo.png" alt="Louisa" onerror="this.innerHTML='[Louisa Bild]';"></div>
+            </div>
+          </div>
+        </div>
+        <!-- Leon Windscheid -->
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Out-of-the-Box: Leon Windscheid</div>
+            <ul class="steps">
+              <li><strong>Fit:</strong> Psychologe (Test: Männer & 35+).</li>
+              <li><strong>Konzept:</strong> "Sex ist Kopfsache" (Wissenschaftl. Erklär-Reel).</li>
+              <li><strong>Warum:</strong> Seriöses Framing, baut massiv Vertrauen auf.</li>
+            </ul>
+            <div class="imgrow">
+              <div class="imgbox"><img src="Leon_photo.png" alt="Leon" onerror="this.innerHTML='[Leon Bild]';"></div>
+            </div>
+          </div>
+        </div>
+        <!-- feminismus24 -->
+        <div class="col">
+          <div class="card">
+            <div class="pill neutral">Community: feminismus24</div>
+            <ul class="steps">
+              <li><strong>Fit:</strong> Hohes Engagement, textbasiert.</li>
+              <li><strong>Konzept:</strong> Carousel: "5 Mythen über weibliche Lust".</li>
+              <li><strong>Warum:</strong> Generiert enorme Saves & Shares.</li>
+            </ul>
+            <div class="imgrow">
+              <div class="imgbox"><img src="feminismus_photo.png" alt="feminismus24" onerror="this.innerHTML='[feminismus24 Bild]';"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 05 OUTREACH & BUDGET ────────────────────────────────────────── -->
+  <section id="outreach" data-title="Outreach">
+    <div class="wrap">
+      <h2>4. Outreach & Budget-Allokation (€40.000)</h2>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Outreach-Kalkulation</div>
+            <ul class="steps">
+              <li><strong>Ziel:</strong> ~10 Creator buchen.</li>
+              <li><strong>Annahmen:</strong> 40% Antwortrate, 33% Zusage (13% Win-Rate).</li>
+              <li><strong>Kontakte nötig:</strong> ca. 75 Creator anschreiben, um das Budget perfekt auszulasten.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Erste Nachricht & Strategie</div>
+            <ul class="steps">
+              <li><strong>Message:</strong> Personalisiert. Fokus auf "Education First" & Pleasure Academy (nimmt den Scham-Druck).</li>
+              <li><strong>Herausforderung:</strong> Stigma. <strong>Lösung:</strong> Klare Ethik-Guidelines kommunizieren.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill problem">Verhandlung (Höhere Fees)</div>
+            <ul class="steps">
+              <li><strong>Benchmark prüfen:</strong> CPM validieren. Ist der Preis objektiv fair?</li>
+              <li><strong>Wert checken:</strong> Bringt er eine wertvolle neue Zielgruppe?</li>
+              <li><strong>Taktik:</strong> Beziehung wahren. Statt Rabatt, die *Deliverables anpassen* (z.B. nur Story statt Reel).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 06 BRIEFING & COMPLIANCE ────────────────────────────────────────── -->
+  <section id="briefing" data-title="Briefing">
+    <div class="wrap">
+      <h2>5. Briefing & Content Moderation (Meta)</h2>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">3 Briefing Must-Haves</div>
+            <ol class="steps">
+              <li><strong>Kampagnen-Ziel:</strong> Kostenloser Einstieg über Pleasure Academy (kein harter Sales-Pitch).</li>
+              <li><strong>Tracking:</strong> Individueller Promo-Code & Link (UTM).</li>
+              <li><strong>Leitplanken:</strong> Klare Do's & Don'ts zur Sprache (Brand Alignment).</li>
+            </ol>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill problem">Compliance (Takedowns vermeiden)</div>
+            <ul class="steps">
+              <li><strong>Synonyme:</strong> Keine Trigger-Wörter. "Spicy", "Education", "Intimität" nutzen.</li>
+              <li><strong>Linktree:</strong> Link führt zum Linktree, nicht direkt auf 18+ Content.</li>
+              <li><strong>Prävention:</strong> Kurzer Vorab-Check des Skripts/Textes vor Livegang.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  <!-- ── 07 KPIs ────────────────────────────────────────────── -->
+  <section id="kpis" data-title="KPIs">
+    <div class="wrap">
+      <h2>6. Performance Evaluation</h2>
+      <div class="row">
+        <div class="col">
+          <div class="card">
+            <div class="pill kpi">Metriken tracken</div>
+            <ul class="steps">
+              <li><strong>Primary:</strong> Anzahl gestarteter Free Trials.</li>
+              <li><strong>Secondary:</strong> Trial-to-Paid Conversion Rate (Qualität).</li>
+              <li><strong>Secondary:</strong> Cost per Acquisition (CAC / CPT).</li>
+              <li><strong>Qualitativ:</strong> Saves, Shares & Kommentarstimmung.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="pill solution">Datenbasierte Optimierung</div>
+            <ul class="steps">
+              <li><strong>Budget-Shift:</strong> Budget von teuren Creatorn zu denen mit niedrigstem CAC verschieben.</li>
+              <li><strong>Creative-Iteration:</strong> Erfolgreiche Hooks (z.B. Psychologie) für Briefings im Folgemonat adaptieren.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="cta" style="margin-top:20px; text-align:center; width:100%">
+        <a class="btn primary" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Zurück nach oben</a>
+      </div>
+    </div>
+  </section>
+ 
+  <footer>Danke für die Zeit! ♡</footer>
+ 
+<script>
+    const secs = Array.from(document.querySelectorAll('section'));
+    const dots = document.getElementById('dots');
+ 
+    secs.forEach((s, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === 0 ? ' active' : '');
+      d.title = s.dataset.title || ('Abschnitt ' + (i+1));
+      d.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+      dots.appendChild(d);
+    });
+ 
+    const dotEls = Array.from(document.querySelectorAll('.dot'));
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        const idx = secs.indexOf(e.target);
+        dotEls.forEach(x => x.classList.remove('active'));
+        if (dotEls[idx]) dotEls[idx].classList.add('active');
+      });
+    }, { threshold: 0.25 });
+ 
+    secs.forEach(s => obs.observe(s));
+ 
+    const start = Date.now();
+    const t = document.getElementById('timer');
+    setInterval(() => {
+      const s = Math.floor((Date.now()-start)/1000);
+      const mm = String(Math.floor(s/60)).padStart(2,'0');
+      const ss = String(s%60).padStart(2,'0');
+      t.textContent = mm + ':' + ss;
+    }, 250);
+  </script>
+</body>
+</html>
